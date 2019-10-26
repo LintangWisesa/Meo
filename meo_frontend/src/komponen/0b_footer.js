@@ -70,7 +70,7 @@ class Footer extends Component{
             <div className="row">
                 <div className="col-lg-8">
                     <div className="copyright_text">
-                        <p>Hak cipta dilindungi &copy; 2019 Meo</p>
+                        <p>Copyright &copy; 2019 Meo</p>
                     </div>
                 </div>
                 <div className="col-lg-4">

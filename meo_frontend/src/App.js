@@ -1,11 +1,86 @@
 import React, {Component} from 'react';
-import Banner from './komponen/0a_banner'
+import axios from 'axios'
+import SimpleStorage from "react-simple-storage";
+import { Route, withRouter } from 'react-router-dom'
+
 import Footer from './komponen/0b_footer'
+import Banner from './komponen/0a_banner'
+import Profil from './komponen/0c_profil'
 
 class App extends Component{
+
+    constructor(){
+        super()
+        this.state = {
+            host: 'http://localhost:1234',
+            hostML: 'http://localhost:5000',
+            statusLogin: false, user: '',
+            nama: '', email: '', password: ''
+        }
+    }
+
+    namaInput = (event) => {
+        this.setState({nama: event.target.value});
+    }
+    emailInput = (event) => {
+        this.setState({email: event.target.value});
+    }
+    passInput = (event) => {
+        this.setState({password: event.target.value});
+    }
+
+    signup = () => {
+        axios.post(`${this.state.host}/signup`, {
+            unama: this.state.nama,
+            uemail: this.state.email,
+            upassword: this.state.password
+        }).then((x)=>{
+            if (x.data.status == 'ok'){
+                alert('Selamat, akun Anda sukses terdaftar! 😊👌')
+                this.login()
+            } else {
+                alert('Gagal signup 😭 Silakan coba lagi 🙏')
+            }
+        }).catch((x)=>{
+            alert('Maaf, gangguan koneksi 😭 Silakan coba lagi 🙏')
+        })
+    }
+
+    login = () => {
+        axios.post(`${this.state.host}/login`, {
+            uemail: this.state.email,
+            upassword: this.state.password
+        }).then((x)=>{
+            if (x.data.statusLogin == 'ok'){
+                alert('Login sukses! Welcome to Meo 😊👌')
+                this.setState({
+                    user: x.data.user,
+                    statusLogin: true,
+                    nama: '', email: '', password: ''
+                })
+                window.location.replace("/")
+            } else {
+                alert('Gagal login 😭 Silakan coba lagi 🙏')
+            }
+        }).catch((x)=>{
+            alert('Maaf, gangguan koneksi 😭 Silakan coba lagi 🙏')
+        })
+    }
+
+    logout = () => {
+        this.setState({
+            user: '',
+            statusLogin: false
+        })
+        alert('Logout sukses! Sayonara... 🤗')
+        window.location.replace("/")
+    }
+
   render(){
     return(
       <div>
+
+        <SimpleStorage parent={this} />
 
         {/* header */}
         <header className="main_menu">
@@ -13,7 +88,7 @@ class App extends Component{
             <div className="row align-items-center">
                 <div className="col-lg-12">
                     <nav className="navbar navbar-expand-lg navbar-light">
-                        <a className="navbar-brand main_logo" href="#top">
+                        <a className="navbar-brand main_logo" href="/">
                             <img src="img/logo.png" alt="logo"/>
                         </a>
                         <a className="navbar-brand single_page_logo" href="index.html"> <img src="img/footer_logo.png" alt="logo"/> </a>
@@ -26,11 +101,37 @@ class App extends Component{
                         <div className="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
                             <ul className="navbar-nav">
                                 <li className="nav-item">
-                                    <a className="nav-link" href="index.html">Beranda</a>
+                                    <a className="nav-link" href="/">Beranda</a>
                                 </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="#layanan">Layanan</a>
-                                </li>
+                                
+                                {
+                                    this.state.statusLogin
+                                    ?
+                                    (
+                                    <li className="nav-item dropdown">
+                                        <a href="#layanan" className="nav-link dropdown-toggle" id="navbarDropdown"
+                                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Layanan
+                                        </a>
+                                        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a className="dropdown-item" href="blog.html">
+                                                Meo IoT
+                                            </a>
+                                            <a className="dropdown-item" href="single-blog.html">
+                                                Meo ML Price
+                                            </a>
+                                        </div>
+                                    </li>
+                                    )
+                                    :
+                                    (
+                                    <li className="nav-item">
+                                        <a className="nav-link" href="#layanan">Layanan</a>
+                                    </li>
+                                    )
+                                }
+                                
+                                
                                 <li className="nav-item">
                                     <a className="nav-link" href="pricing.html">Harga</a>
                                 </li>
@@ -40,8 +141,12 @@ class App extends Component{
                                         Berita
                                     </a>
                                     <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a className="dropdown-item" href="blog.html">Blog</a>
-                                        <a className="dropdown-item" href="single-blog.html">Galeri</a>
+                                        <a className="dropdown-item" href="blog.html">
+                                            Berita
+                                        </a>
+                                        <a className="dropdown-item" href="single-blog.html">
+                                            Events
+                                        </a>
                                     </div>
                                 </li>
                                 <li className="nav-item">
@@ -51,20 +156,41 @@ class App extends Component{
                         </div>
                         
                         <ul>
-                        <li className="nav-item dropdown">
-                            <a className="d-none d-sm-block btn_1 home_page_btn nav-link dropdown-toggle" id="navbarDropdown"
-                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Account
-                            </a>
-                            <div className="mt-3 dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a className="dropdown-item" href="" data-toggle="modal" data-target="#signupModal">
-                                    Signup
+
+                        {
+                            this.state.statusLogin 
+                            ?
+                            (<li className="nav-item dropdown">
+                                <a className="d-none d-sm-block btn_1 home_page_btn nav-link dropdown-toggle" id="navbarDropdown"
+                                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {this.state.user.unama}
                                 </a>
-                                <a className="dropdown-item" href="" data-toggle="modal" data-target="#loginModal">
-                                    Login
+                                <div className="mt-3 dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a className="dropdown-item" href="/profil">
+                                        Profil Saya
+                                    </a>
+                                    <a onClick={this.logout} className="dropdown-item" href="">
+                                        Logout
+                                    </a>
+                                </div>
+                            </li>) 
+                            :
+                            (<li className="nav-item dropdown">
+                                <a className="d-none d-sm-block btn_1 home_page_btn nav-link dropdown-toggle" id="navbarDropdown"
+                                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Account
                                 </a>
-                            </div>
-                        </li>
+                                <div className="mt-3 dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a className="dropdown-item" href="" data-toggle="modal" data-target="#signupModal">
+                                        Signup
+                                    </a>
+                                    <a className="dropdown-item" href="" data-toggle="modal" data-target="#loginModal">
+                                        Login
+                                    </a>
+                                </div>
+                            </li>)
+                        }
+
                         </ul>
 
                     </nav>
@@ -72,10 +198,6 @@ class App extends Component{
             </div>
         </div>
       </header>
-
-        <Banner/>
-        
-        <Footer/>
 
         {/* modal signup */}
         <div style={{marginTop:'150px'}} className="modal fade" id="signupModal" tabindex="-1" role="dialog" 
@@ -103,7 +225,7 @@ class App extends Component{
                             <i class="fas fa-user"></i>
                         </span>
                     </div>
-                    <input type="text" className="form-control" placeholder="Ketik nama Anda ..." 
+                    <input value={this.state.nama} onChange={this.namaInput} type="text" className="form-control" placeholder="Ketik nama Anda ..." 
                     aria-label="Username" aria-describedby="basic-addon1"/>
                 </div>
                 
@@ -114,7 +236,7 @@ class App extends Component{
                             <i class="fas fa-envelope"></i>
                         </span>
                     </div>
-                    <input type="text" className="form-control" placeholder="Ketik email Anda ..." 
+                    <input value={this.state.email} onChange={this.emailInput} type="text" className="form-control" placeholder="Ketik email Anda ..." 
                     aria-label="Username" aria-describedby="basic-addon1"/>
                 </div>
                 
@@ -125,7 +247,7 @@ class App extends Component{
                             <i class="fas fa-unlock-alt"></i>
                         </span>
                     </div>
-                    <input type="password" className="form-control" placeholder="Ketik password ..." 
+                    <input value={this.state.password} onChange={this.passInput} type="password" className="form-control" placeholder="Ketik password ..." 
                     aria-label="Username" aria-describedby="basic-addon1"/>
                 </div>
 
@@ -134,7 +256,8 @@ class App extends Component{
                 <button type="button" className="btn btn-danger" data-dismiss="modal">
                     <i class="fas fa-window-close"></i>&nbsp;&nbsp;Batal
                 </button>
-                <button type="button" className="btn btn-success text-white">
+                <button onClick={this.signup} 
+                type="button" className="btn btn-success text-white">
                     <i class="fas fa-check-square"></i>&nbsp;&nbsp;Daftar
                 </button>
             </div>
@@ -164,7 +287,7 @@ class App extends Component{
                             <i class="fas fa-envelope"></i>
                         </span>
                     </div>
-                    <input type="text" className="form-control" placeholder="Ketik email Anda ..." 
+                    <input value={this.state.email} onChange={this.emailInput} type="text" className="form-control" placeholder="Ketik email Anda ..." 
                     aria-label="Username" aria-describedby="basic-addon1"/>
                 </div>
                 
@@ -175,7 +298,7 @@ class App extends Component{
                             <i class="fas fa-unlock-alt"></i>
                         </span>
                     </div>
-                    <input type="password" className="form-control" placeholder="Ketik password ..." 
+                    <input value={this.state.password} onChange={this.passInput} type="password" className="form-control" placeholder="Ketik password ..." 
                     aria-label="Username" aria-describedby="basic-addon1"/>
                 </div>
 
@@ -184,7 +307,8 @@ class App extends Component{
                 <button type="button" className="btn btn-danger" data-dismiss="modal">
                     <i class="fas fa-window-close"></i>&nbsp;&nbsp;Batal
                 </button>
-                <button type="button" className="btn btn-success text-white">
+                <button onClick={this.login}
+                type="button" className="btn btn-success text-white">
                     <i class="fas fa-check-square"></i>&nbsp;&nbsp;Masuk
                 </button>
             </div>
@@ -192,10 +316,15 @@ class App extends Component{
         </div>
         </div>
 
-
+        <div>
+            <Route exact path="/" component={Banner}/>
+            <Route path="/profil" render={(props) => <Profil {...props} user={this.state.user} host={this.state.host}/>}/>
+        </div>
+        
+        <Footer/>
       </div>
     )
   }
 }
 
-export default App;
+export default withRouter(App);
