@@ -5,6 +5,7 @@ var route_user = require('./routes/route_user.js')
 var app = express()
 app.use(cors())
 app.use('/file', express.static('file'));
+app.use('/img', express.static('img'));
 app.use(route_user)
 
 app.get('/', (req, res)=>{

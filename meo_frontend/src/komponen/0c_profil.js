@@ -1,12 +1,31 @@
 import React, {Component} from 'react';
 
 class Profil extends Component{
-  render(){
+  
+    constructor(){
+        super()
+        this.state = {
+            tipe: '',
+            model: [],
+            modelPilih: ''
+        }
+    }
+
+    render(){
 
     const reg = new Date(this.props.user.utglreg)
     const tglreg = reg.getDate() + '-' + (reg.getMonth() + 1) + '-' + reg.getFullYear()
     const update = new Date(this.props.user.utglupdate)
     const tglupdate = update.getDate() + '-' + (update.getMonth() + 1) + '-' + update.getFullYear()
+    
+    var listMobil = this.state.model.map((val, i)=>{
+        return (
+            <a className="dropdown-item" style={{cursor:'pointer'}} 
+            onClick={(e)=>{this.setState({modelPilih: e.target.text})}}>
+                {val}
+            </a>
+        )
+    })
 
     return(
         <div>
@@ -163,6 +182,69 @@ class Profil extends Component{
             </div>
             <div className="modal-body">
                 
+                <div className='row'>
+                    {/* tipe */}
+                    <div className="dropdown col-sm-6">
+                        <button className="btn btn-secondary btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {this.state.tipe ? this.state.tipe : 'Pilih tipe'}
+                        </button>
+                        <div className="ml-5 dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a className="dropdown-item" style={{cursor:'pointer'}} 
+                            onClick={(e)=>{this.setState({tipe: e.target.text, modelPilih:'', model:['Calya', 'Sienta', 'Avanza', 'Veloz', 'Venturer', 'Voxy', 'Kijang Innova', 'Alphard', 'Vellfire']})}}>
+                                MPV
+                            </a>
+                            <a className="dropdown-item" style={{cursor:'pointer'}} 
+                            onClick={(e)=>{this.setState({tipe: e.target.text, modelPilih:'', model:['Corolla Altis', 'Camry', 'Vios']})}}>
+                                Sedan
+                            </a>
+                            <a className="dropdown-item" style={{cursor:'pointer'}} 
+                            onClick={(e)=>{this.setState({tipe: e.target.text, modelPilih:'', model:['ok']})}}>
+                                SUV
+                            </a>
+                            <a className="dropdown-item" style={{cursor:'pointer'}} 
+                            onClick={(e)=>{this.setState({tipe: e.target.text, modelPilih:'', model:['ok']})}}>
+                                Hybrid
+                            </a>
+                            <a className="dropdown-item" style={{cursor:'pointer'}} 
+                            onClick={(e)=>{this.setState({tipe: e.target.text, modelPilih:'', model:['ok']})}}>
+                                Hatchback
+                            </a>
+                            <a className="dropdown-item" style={{cursor:'pointer'}} 
+                            onClick={(e)=>{this.setState({tipe: e.target.text, modelPilih:'', model:['ok']})}}>
+                                Commercial
+                            </a>
+                            <a className="dropdown-item" style={{cursor:'pointer'}} 
+                            onClick={(e)=>{this.setState({tipe: e.target.text, modelPilih:'', model:['ok']})}}>
+                                Sport
+                            </a>
+                        </div>
+                    </div>
+                    {/* model */}
+                    {
+                        this.state.model[0]
+                        ?
+                        (
+                            <div className="dropdown col-sm-6">
+                                <button className="btn btn-secondary btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {this.state.modelPilih ? this.state.modelPilih : 'Pilih Model'}
+                                </button>
+                                <div className="ml-5 dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    {listMobil}
+                                </div>
+                            </div>
+                        )
+                        :
+                        (
+                            <div className="dropdown col-sm-6">
+                                <button className="disabled btn btn-secondary btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Pilih Model
+                                </button>
+                            </div>
+                        )
+                    }
+                    
+                </div>
+
                 {/* email */}
                 <div className="input-group my-3">
                     <div className="input-group-prepend">

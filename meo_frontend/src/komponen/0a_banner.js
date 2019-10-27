@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 
 class Banner extends Component{
+    
   render(){
     return(
         <div>
-            
+
         {/* banner */}
         <section id='top' className="banner_part">
             <div className="container">

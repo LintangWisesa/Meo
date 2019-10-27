@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import axios from 'axios'
 import SimpleStorage from "react-simple-storage";
 import { Route, withRouter } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Footer from './komponen/0b_footer'
 import Banner from './komponen/0a_banner'
@@ -18,6 +20,15 @@ class App extends Component{
             nama: '', email: '', password: ''
         }
     }
+    
+    notify = () => toast.success('🦄 Wow so easy!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+    });
 
     namaInput = (event) => {
         this.setState({nama: event.target.value});
@@ -36,13 +47,34 @@ class App extends Component{
             upassword: this.state.password
         }).then((x)=>{
             if (x.data.status == 'ok'){
-                alert('Selamat, akun Anda sukses terdaftar! 😊👌')
+                toast.success('🎉 Selamat, akun Anda sukses terdaftar!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
                 this.login()
             } else {
-                alert('Gagal signup 😭 Silakan coba lagi 🙏')
+                toast.error(`Gagal signup 😭 Silakan coba lagi 🙏`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
             }
         }).catch((x)=>{
-            alert('Maaf, gangguan koneksi 😭 Silakan coba lagi 🙏')
+            toast.error(`Maaf, gangguan koneksi 😭 Silakan coba lagi 🙏`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
         })
     }
 
@@ -52,7 +84,14 @@ class App extends Component{
             upassword: this.state.password
         }).then((x)=>{
             if (x.data.statusLogin == 'ok'){
-                alert('Login sukses! Welcome to Meo 😊👌')
+                toast.success(`😎 Login sukses! Welcome ${this.state.nama}`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
                 this.setState({
                     user: x.data.user,
                     statusLogin: true,
@@ -60,19 +99,40 @@ class App extends Component{
                 })
                 window.location.replace("/")
             } else {
-                alert('Gagal login 😭 Silakan coba lagi 🙏')
+                toast.error(`Gagal login 😭 Silakan coba lagi 🙏`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
             }
         }).catch((x)=>{
-            alert('Maaf, gangguan koneksi 😭 Silakan coba lagi 🙏')
+            toast.error(`Maaf, gangguan koneksi 😭 Silakan coba lagi 🙏`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
         })
     }
 
     logout = () => {
+        toast.success(`Logout sukses! Sayonara... 🤗`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
         this.setState({
             user: '',
             statusLogin: false
         })
-        alert('Logout sukses! Sayonara... 🤗')
         window.location.replace("/")
     }
 
@@ -81,6 +141,7 @@ class App extends Component{
       <div>
 
         <SimpleStorage parent={this} />
+        <ToastContainer style={{marginTop:'100px', fontSize:16}}/>
 
         {/* header */}
         <header className="main_menu">
@@ -236,7 +297,7 @@ class App extends Component{
                             <i class="fas fa-envelope"></i>
                         </span>
                     </div>
-                    <input value={this.state.email} onChange={this.emailInput} type="text" className="form-control" placeholder="Ketik email Anda ..." 
+                    <input value={this.state.email} onChange={this.emailInput} type="email" className="form-control" placeholder="Ketik email Anda ..." 
                     aria-label="Username" aria-describedby="basic-addon1"/>
                 </div>
                 
@@ -287,7 +348,7 @@ class App extends Component{
                             <i class="fas fa-envelope"></i>
                         </span>
                     </div>
-                    <input value={this.state.email} onChange={this.emailInput} type="text" className="form-control" placeholder="Ketik email Anda ..." 
+                    <input value={this.state.email} onChange={this.emailInput} type="email" className="form-control" placeholder="Ketik email Anda ..." 
                     aria-label="Username" aria-describedby="basic-addon1"/>
                 </div>
                 
@@ -315,7 +376,6 @@ class App extends Component{
             </div>
         </div>
         </div>
-
         <div>
             <Route exact path="/" component={Banner}/>
             <Route path="/profil" render={(props) => <Profil {...props} user={this.state.user} host={this.state.host}/>}/>
