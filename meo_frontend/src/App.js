@@ -152,7 +152,7 @@ class App extends Component{
                         <a className="navbar-brand main_logo" href="/">
                             <img src="img/logo.png" alt="logo"/>
                         </a>
-                        <a className="navbar-brand single_page_logo" href="index.html"> <img src="img/footer_logo.png" alt="logo"/> </a>
+                        <a className="navbar-brand single_page_logo" href="/"> <img src="img/footer_logo.png" alt="logo"/> </a>
                         <button className="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -175,10 +175,10 @@ class App extends Component{
                                             Layanan
                                         </a>
                                         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a className="dropdown-item" href="blog.html">
+                                            <a className="dropdown-item" href="/">
                                                 Meo IoT
                                             </a>
-                                            <a className="dropdown-item" href="single-blog.html">
+                                            <a className="dropdown-item" href="/">
                                                 Meo ML Price
                                             </a>
                                         </div>
@@ -194,7 +194,7 @@ class App extends Component{
                                 
                                 
                                 <li className="nav-item">
-                                    <a className="nav-link" href="pricing.html">Harga</a>
+                                    <a className="nav-link" href="/">Harga</a>
                                 </li>
                                 <li className="nav-item dropdown">
                                     <a className="nav-link dropdown-toggle" id="navbarDropdown"
@@ -202,16 +202,16 @@ class App extends Component{
                                         Berita
                                     </a>
                                     <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a className="dropdown-item" href="blog.html">
+                                        <a className="dropdown-item" href="/">
                                             Berita
                                         </a>
-                                        <a className="dropdown-item" href="single-blog.html">
+                                        <a className="dropdown-item" href="/">
                                             Events
                                         </a>
                                     </div>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="contact.html">Hubungi Kami</a>
+                                    <a className="nav-link" href="/">Hubungi Kami</a>
                                 </li>
                             </ul>
                         </div>
@@ -230,7 +230,10 @@ class App extends Component{
                                     <a className="dropdown-item" href="/profil">
                                         Profil Saya
                                     </a>
-                                    <a onClick={this.logout} className="dropdown-item" href="">
+                                    <a className="dropdown-item" href="/profil">
+                                        Toyota Saya
+                                    </a>
+                                    <a style={{cursor:'pointer'}} onClick={this.logout} className="dropdown-item">
                                         Logout
                                     </a>
                                 </div>
@@ -242,10 +245,10 @@ class App extends Component{
                                     Account
                                 </a>
                                 <div className="mt-3 dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a className="dropdown-item" href="" data-toggle="modal" data-target="#signupModal">
+                                    <a style={{cursor:'pointer'}} className="dropdown-item" data-toggle="modal" data-target="#signupModal">
                                         Signup
                                     </a>
-                                    <a className="dropdown-item" href="" data-toggle="modal" data-target="#loginModal">
+                                    <a style={{cursor:'pointer'}} className="dropdown-item" data-toggle="modal" data-target="#loginModal">
                                         Login
                                     </a>
                                 </div>

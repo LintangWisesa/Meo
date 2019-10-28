@@ -93,70 +93,86 @@ class Banner extends Component{
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-lg-2 col-sm-4">
-                        <div className="single_pricing_part">
-                            <p><i className="fas fa-car"></i></p>
-                            <p className="mt-3"><a href="#" className="pricing_btn">
-                                Dealer Workshop
-                            </a></p>
-                        </div>
+                        <a style={{cursor:'pointer'}}>
+                            <div className="single_pricing_part">
+                                <p><i className="fas fa-car"></i></p>
+                                <p className="mt-3"><a style={{cursor:'pointer'}} className="pricing_btn">
+                                    Dealer Workshop
+                                </a></p>
+                            </div>
+                        </a>
                     </div>
                     <div className="col-lg-2 col-sm-4">
-                        <div className="single_pricing_part">
-                            <p><i className="fas fa-house-damage"></i></p>
-                            <p className="mt-3"><a href="#" className="pricing_btn">
-                                Home Service
-                            </a></p>
-                        </div>
+                        <a style={{cursor:'pointer'}}>
+                            <div className="single_pricing_part">
+                                <p><i className="fas fa-house-damage"></i></p>
+                                <p className="mt-3"><a style={{cursor:'pointer'}} className="pricing_btn">
+                                    Home Service
+                                </a></p>
+                            </div>
+                        </a>
                     </div>
                     <div className="col-lg-2 col-sm-4">
-                        <div className="single_pricing_part">
-                            <p><i className="fas fa-search-location"></i></p>
-                            <p className="mt-3"><a href="#" className="pricing_btn">
-                                Lokasi Cabang
-                            </a></p>
-                        </div>
+                        <a style={{cursor:'pointer'}}>
+                            <div className="single_pricing_part">
+                                <p><i className="fas fa-search-location"></i></p>
+                                <p className="mt-3"><a style={{cursor:'pointer'}} className="pricing_btn">
+                                    Lokasi Cabang
+                                </a></p>
+                            </div>
+                        </a>
                     </div>
                     <div className="col-lg-2 col-sm-4">
-                        <div className="single_pricing_part">
-                            <p><i className="fas fa-book"></i></p>
-                            <p className="mt-3"><a href="#" className="pricing_btn">
-                                Katalog Toyota
-                            </a></p>
-                        </div>
+                        <a style={{cursor:'pointer'}}>
+                            <div className="single_pricing_part">
+                                <p><i className="fas fa-book"></i></p>
+                                <p className="mt-3"><a style={{cursor:'pointer'}} className="pricing_btn">
+                                    Katalog Toyota
+                                </a></p>
+                            </div>
+                        </a>
                     </div>
                     <div className="col-lg-2 col-sm-4">
-                        <div className="single_pricing_part">
-                            <p><i className="fas fa-calendar-check"></i></p>
-                            <p className="mt-3"><a href="#" className="pricing_btn">
-                                Simulasi Kredit
-                            </a></p>
-                        </div>
+                        <a style={{cursor:'pointer'}}>
+                            <div className="single_pricing_part">
+                                <p><i className="fas fa-calendar-check"></i></p>
+                                <p className="mt-3"><a style={{cursor:'pointer'}} className="pricing_btn">
+                                    Simulasi Kredit
+                                </a></p>
+                            </div>
+                        </a>
                     </div>
                     <div className="col-lg-2 col-sm-4">
-                        <div className="single_pricing_part">
-                            <p><i className="fas fa-newspaper"></i></p>
-                            <p className="mt-3"><a href="#" className="pricing_btn">
-                                Berita Events
-                            </a></p>
-                        </div>
+                        <a style={{cursor:'pointer'}}>
+                            <div className="single_pricing_part">
+                                <p><i className="fas fa-newspaper"></i></p>
+                                <p className="mt-3"><a style={{cursor:'pointer'}} className="pricing_btn">
+                                    Berita Events
+                                </a></p>
+                            </div>
+                        </a>
                     </div>
                 </div>
                 <div className="my-4 row justify-content-center">
                     <div className="col-lg-6 col-sm-6">
-                        <div className="single_pricing_part">
-                            <img src='./img/meo_iot.png'/>
-                            <p><a href="#" className="pricing_btn">
-                                Meo IoT
-                            </a></p>
-                        </div>
+                        <a style={{cursor:'pointer'}}>
+                            <div className="single_pricing_part">
+                                <img src='./img/meo_iot.png'/>
+                                <p><a style={{cursor:'pointer'}} className="pricing_btn">
+                                    Meo IoT
+                                </a></p>
+                            </div>
+                        </a>
                     </div>
                     <div className="col-lg-6 col-sm-6">
-                        <div className="single_pricing_part">
-                            <img src='./img/meo_ml.png'/>
-                            <p><a href="#" className="pricing_btn">
-                                Meo ML Price
-                            </a></p>
-                        </div>
+                        <a style={{cursor:'pointer'}}>
+                            <div className="single_pricing_part">
+                                <img src='./img/meo_ml.png'/>
+                                <p><a style={{cursor:'pointer'}} className="pricing_btn">
+                                    Meo ML Price
+                                </a></p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
