@@ -20,15 +20,6 @@ class App extends Component{
             nama: '', email: '', password: ''
         }
     }
-    
-    notify = () => toast.success('🦄 Wow so easy!', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-    });
 
     namaInput = (event) => {
         this.setState({nama: event.target.value});
@@ -97,7 +88,7 @@ class App extends Component{
                     statusLogin: true,
                     nama: '', email: '', password: ''
                 })
-                window.location.replace("/")
+                window.location.replace(`/profil/${this.state.user.uid}`)
             } else {
                 toast.error(`Gagal login 😭 Silakan coba lagi 🙏`, {
                     position: "top-right",
@@ -150,9 +141,9 @@ class App extends Component{
                 <div className="col-lg-12">
                     <nav className="navbar navbar-expand-lg navbar-light">
                         <a className="navbar-brand main_logo" href="/">
-                            <img src="img/logo.png" alt="logo"/>
+                            <img src="/img/logo.png" alt="logo"/>
                         </a>
-                        <a className="navbar-brand single_page_logo" href="/"> <img src="img/footer_logo.png" alt="logo"/> </a>
+                        <a className="navbar-brand single_page_logo" href="/"> <img src="/img/footer_logo.png" alt="logo"/> </a>
                         <button className="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -227,10 +218,10 @@ class App extends Component{
                                     {this.state.user.unama}
                                 </a>
                                 <div className="mt-3 dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a className="dropdown-item" href="/profil">
+                                    <a className="dropdown-item" href={`/profil/${this.state.user.uid}`}>
                                         Profil Saya
                                     </a>
-                                    <a className="dropdown-item" href="/profil">
+                                    <a className="dropdown-item" href={`/profil/${this.state.user.uid}`}>
                                         Toyota Saya
                                     </a>
                                     <a style={{cursor:'pointer'}} onClick={this.logout} className="dropdown-item">
@@ -381,7 +372,7 @@ class App extends Component{
         </div>
         <div>
             <Route exact path="/" component={Banner}/>
-            <Route path="/profil" render={(props) => <Profil {...props} user={this.state.user} host={this.state.host}/>}/>
+            <Route path="/profil/:uid" render={(props) => <Profil {...props} user={this.state.user} host={this.state.host}/>}/>
         </div>
         
         <Footer/>

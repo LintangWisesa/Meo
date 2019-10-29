@@ -12,7 +12,7 @@ class Banner extends Component{
                 <div className="row align-items-center justify-content-between">
                     <div className="col-lg-5">
                         <div className="banner_img d-none d-lg-block">
-                            <img src="img/banner_img.png" alt=""/>
+                            <img src="/img/banner_img.png" alt=""/>
                         </div>
                     </div>
                     <div className="col-lg-6">
@@ -28,12 +28,12 @@ class Banner extends Component{
                     </div>
                 </div>
             </div>
-            <img src="img/animate_icon/Ellipse_7.png" alt="" className="feature_icon_1 custom-animation1"/>
-            <img src="img/animate_icon/Ellipse_8.png" alt="" className="feature_icon_2 custom-animation2"/>
-            <img src="img/animate_icon/Ellipse_1.png" alt="" className="feature_icon_3 custom-animation3"/>
-            <img src="img/animate_icon/Ellipse_2.png" alt="" className="feature_icon_4 custom-animation4"/>
-            <img src="img/animate_icon/Ellipse_3.png" alt="" className="feature_icon_5 custom-animation5"/>
-            <img src="img/animate_icon/Ellipse_4.png" alt="" className="feature_icon_6 custom-animation6"/>
+            <img src="/img/animate_icon/Ellipse_7.png" alt="" className="feature_icon_1 custom-animation1"/>
+            <img src="/img/animate_icon/Ellipse_8.png" alt="" className="feature_icon_2 custom-animation2"/>
+            <img src="/img/animate_icon/Ellipse_1.png" alt="" className="feature_icon_3 custom-animation3"/>
+            <img src="/img/animate_icon/Ellipse_2.png" alt="" className="feature_icon_4 custom-animation4"/>
+            <img src="/img/animate_icon/Ellipse_3.png" alt="" className="feature_icon_5 custom-animation5"/>
+            <img src="/img/animate_icon/Ellipse_4.png" alt="" className="feature_icon_6 custom-animation6"/>
         </section>
 
         {/* fitur 1 */}
@@ -42,7 +42,7 @@ class Banner extends Component{
                 <div className="row align-items-center justify-content-between">
                     <div className="col-md-6 col-lg-5">
                         <div className="about_us_text">
-                            <img src="img/icon/Icon_1.png" alt=""/>
+                            <img src="/img/icon/Icon_1.png" alt=""/>
                             <h2>Meo IoT</h2>
                             <p>Manfaatkan <b><i>Meo IoT</i></b> untuk memantau kondisi terkini mobil Anda via internet. Parameter yang dapat Anda monitor antara lain: suhu, posisi, kelembaban, tekanan udara, posisi dan sensor lainnya yang dibenamkan dalam mobil.</p>
                             <a href="#meoml" className="btn_2">Selengkapnya</a>
@@ -50,12 +50,12 @@ class Banner extends Component{
                     </div>
                     <div className="col-md-6 col-lg-6">
                         <div className="learning_img">
-                            <img src="img/about_img.png" alt=""/>
+                            <img src="/img/about_img.png" alt=""/>
                         </div>
                     </div>
                 </div>
             </div>
-            <img src="img/animate_icon/Ellipse_4.png" alt="" className="feature_icon_1 custom-animation1"/>
+            <img src="/img/animate_icon/Ellipse_4.png" alt="" className="feature_icon_1 custom-animation1"/>
         </section>
         
         {/* fitur 2 */}
@@ -64,12 +64,12 @@ class Banner extends Component{
                 <div className="row align-items-center justify-content-between">
                     <div className="col-md-6 col-lg-6">
                         <div className="learning_img">
-                            <img src="img/about_img_1.png" alt=""/>
+                            <img src="/img/about_img_1.png" alt=""/>
                         </div>
                     </div>
                     <div className="col-md-6 col-lg-5">
                         <div className="about_us_text">
-                            <img src="img/icon/Icon_2.png" alt=""/>
+                            <img src="/img/icon/Icon_2.png" alt=""/>
                             <h2>Meo ML Price</h2>
                             <p>Prediksikan harga jual kembali mobil Anda berdasarkan model <b><i>Machine Learning</i></b> yang terukur, berdasarkan data harga di pasaran.</p>
                             <a href="#layanan" className="btn_2">Selengkapnya</a>
@@ -77,7 +77,7 @@ class Banner extends Component{
                     </div>
                 </div>
             </div>
-            <img src="img/animate_icon/Ellipse_4.png" alt="" className="feature_icon_1 custom-animation1"/>
+            <img src="/img/animate_icon/Ellipse_4.png" alt="" className="feature_icon_1 custom-animation1"/>
         </section>
 
         {/* layanan */}
@@ -157,7 +157,7 @@ class Banner extends Component{
                     <div className="col-lg-6 col-sm-6">
                         <a style={{cursor:'pointer'}}>
                             <div className="single_pricing_part">
-                                <img src='./img/meo_iot.png'/>
+                                <img src='.//img/meo_iot.png'/>
                                 <p><a style={{cursor:'pointer'}} className="pricing_btn">
                                     Meo IoT
                                 </a></p>
@@ -167,7 +167,7 @@ class Banner extends Component{
                     <div className="col-lg-6 col-sm-6">
                         <a style={{cursor:'pointer'}}>
                             <div className="single_pricing_part">
-                                <img src='./img/meo_ml.png'/>
+                                <img src='.//img/meo_ml.png'/>
                                 <p><a style={{cursor:'pointer'}} className="pricing_btn">
                                     Meo ML Price
                                 </a></p>
@@ -176,7 +176,7 @@ class Banner extends Component{
                     </div>
                 </div>
             </div>
-            <img src="img/animate_icon/Ellipse_2.png" alt="" className="feature_icon_2 custom-animation2"/>
+            <img src="/img/animate_icon/Ellipse_2.png" alt="" className="feature_icon_2 custom-animation2"/>
         </section>
 
         {/* testimoni */}
@@ -185,7 +185,7 @@ class Banner extends Component{
                 <div className="row align-items-center justify-content-between">
                     <div className="col-md-6 col-lg-6">
                         <div className="review_img">
-                            <img style={{transform: 'scaleX(-1)'}} src="img/about_img_ori.png" alt=""/>
+                            <img style={{transform: 'scaleX(-1)'}} src="/img/about_img_ori.png" alt=""/>
                         </div>
                     </div>
                     <div className="col-md-6 col-lg-5">
@@ -209,7 +209,7 @@ class Banner extends Component{
                     </div>
                 </div>
             </div>
-            <img src="img/animate_icon/Ellipse_4.png" alt="" className="feature_icon_2 custom-animation2"/>
+            <img src="/img/animate_icon/Ellipse_4.png" alt="" className="feature_icon_2 custom-animation2"/>
         </section>
 
         {/* subscribe */}
@@ -237,7 +237,7 @@ class Banner extends Component{
                     </div>
                 </div>
             </div>
-            <img src="img/animate_icon/Ellipse_5.png" alt="" className="feature_icon_2 custom-animation2"/>
+            <img src="/img/animate_icon/Ellipse_5.png" alt="" className="feature_icon_2 custom-animation2"/>
         </section>
 
         </div>

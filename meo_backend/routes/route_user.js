@@ -83,4 +83,43 @@ router.get('/user', (req, res) => {
     })
 })
 
+// GET user by id
+router.get('/user/:uid', (req, res) => {
+    var dbStat = 'select * from meo_users where uid = ?'
+    db.query(dbStat, req.params.uid, (error, output) => {
+        if(error){
+            console.log(error)
+        } else {
+            console.log(output)
+            res.send(output)
+        }
+    })
+})
+
+// update profil user
+router.put('/update', (req, res)=>{
+    var dbStat = 'update meo_users set unama=?, uemail=?, upassword=?, ufoto=?, ualamat=?, ukota=?, utelp=? where uid =?'
+    var unama = req.body.unama
+    var uemail = req.body.uemail
+    var upassword = req.body.upassword
+    var ufoto = req.body.ufoto
+    var ualamat = req.body.ualamat
+    var ukota = req.body.ukota
+    var utelp = req.body.utelp
+    var uid = req.body.uid
+    db.query(dbStat, [unama, uemail, upassword, ufoto, ualamat, ukota, utelp, uid], (error, output) => {
+        if(error){
+            console.log(error)
+            res.send({
+                statusUpdate: 'no'
+            })
+        } else {
+            console.log(output)
+            res.send({
+                statusUpdate: 'ok'
+            })
+        }
+    })
+})
+
 module.exports = router

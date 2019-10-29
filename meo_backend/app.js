@@ -1,12 +1,14 @@
 var express = require('express')
 var cors = require('cors')
 var route_user = require('./routes/route_user.js')
+var route_upload = require('./routes/route_upload.js')
 
 var app = express()
 app.use(cors())
-app.use('/file', express.static('file'));
+app.use('/profile', express.static('profile'));
 app.use('/img', express.static('img'));
 app.use(route_user)
+app.use(route_upload)
 
 app.get('/', (req, res)=>{
     res.sendFile(__dirname + '/templates/app.html')

@@ -11,7 +11,7 @@ class Footer extends Component{
             <div className="row">
                 <div className="col-sm-8 col-md-4 col-lg-4">
                     <div className="single_footer_part">
-                        <a href="/" className="footer_logo_iner"> <img src="img/footer_logo.png" alt="#"/> </a>
+                        <a href="/" className="footer_logo_iner"> <img src="/img/footer_logo.png" alt="#"/> </a>
                         <p>
                         Manfaatkan teknologi <b><i>IoT</i></b> & <b><i>Machine Learning</i></b> untuk memantau kondisi mobil Anda sekaligus memprediksi harga jual kembalinya.
                         </p>

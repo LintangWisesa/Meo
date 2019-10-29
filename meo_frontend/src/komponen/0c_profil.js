@@ -1,15 +1,44 @@
 import React, {Component} from 'react';
+import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class Profil extends Component{
   
     constructor(props){
         super(props)
         this.state = {
-            tipe: '',
-            model: [],
-            nama: '', email: '', password: '', telp: '', alamat: '', kota: '',
-            modelPilih: '', fotoPilih: '', plat: '', seat: '', th: ''
+            tipe: '', model: [], modelPilih: '', fotoPilih: '', plat: '', seat: '', th: '',
+            id: '', nama: '', email: '', password: '', telp: '', alamat: '', kota: '', 
+            foto: '', file: ''
         }
+    }
+
+    componentDidMount(){
+        var url = this.props.host
+        axios.get(url + `/user/${this.props.match.params.uid}`)
+        .then((x)=>{
+            this.setState({
+                id: x.data[0].uid,
+                nama: x.data[0].unama,
+                email: x.data[0].uemail,
+                password: x.data[0].upassword,
+                telp: x.data[0].utelp,
+                alamat: x.data[0].ualamat,
+                kota: x.data[0].ukota,
+                foto: x.data[0].ufoto,
+            })
+            toast.success(`🎉 Selamat datang, ${this.state.nama} 🤗`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+        }).catch((x)=>{
+            console.log('ok')
+        })
     }
 
     namaInput = (event) => {
@@ -40,14 +69,113 @@ class Profil extends Component{
     thInput = (event) => {
         this.setState({th: event.target.value});
     }
+
+    postFoto = (e) => {
+        this.setState({
+            foto: e.target.files[0].name,
+            file: e.target.files[0]
+        }, ()=>{
+            const formData = new FormData();
+            formData.append('filename', this.state.file);
+            console.log(formData)
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            var url = this.props.host + '/profile'
+            axios.post(url, formData, config)
+            .then((response) => {
+                toast.success(`Image ${response.data.fotoTerupload} sukses terupload 🤩 Klik Update profil untuk mengganti foto.`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+                // console.log(response.data)
+                this.setState({
+                    foto: response.data.fotoTerupload
+                })
+            }).catch((error) => {
+                toast.error(`Foto gagal diperbarui 😭 silakan coba lagi 🙏`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            });
+        })
+    }
+
     updateProfil = () => {
-        var nama = this.state.nama ? this.state.nama : this.props.user.unama
-        var email = this.state.email ? this.state.email : this.props.user.uemail
-        var password = this.state.password ? this.state.password : this.props.user.upassword
-        var telp = this.state.telp ? this.state.telp : this.props.user.utelp
-        var alamat = this.state.alamat ? this.state.alamat : this.props.user.ualamat
-        var kota = this.state.kota ? this.state.kota : this.props.user.ukota 
-        alert(nama + email + password + telp + alamat + kota)
+        var id = this.state.id ? this.state.id : null
+        var nama = this.state.nama ? this.state.nama : null
+        var email = this.state.email ? this.state.email : null
+        var password = this.state.password ? this.state.password : null
+        var foto = this.state.foto ? this.state.foto : null
+        var telp = this.state.telp ? this.state.telp : null
+        var alamat = this.state.alamat ? this.state.alamat : null
+        var kota = this.state.kota ? this.state.kota : null 
+        var url = this.props.host
+        axios.put(url + '/update', {
+            "unama": nama,
+            "uemail": email,
+            "upassword": password,
+            "ufoto": foto,
+            "ualamat": alamat,
+            "ukota": kota,
+            "utelp": telp,
+            "uid": id
+        }).then((x)=>{
+            if(x.data.statusUpdate == 'ok'){
+                this.setState({
+                    nama: nama, email: email, password: password, foto: foto, 
+                    telp: telp, alamat: alamat, kota: kota
+                })
+                toast.success(`🎉 Profil sukses terupdate 👍`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+                window.location.replace(`/profil/${this.state.id}`)
+            } else {
+                toast.error(`😭 Maaf, profil gagal terupdate. Coba lagi nanti 👍`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            }
+        }).catch((x)=>{
+            toast.error(`😭 Maaf, profil gagal terupdate. Coba lagi nanti 👍`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+        })
+    }
+
+    tambahMobil = () => {
+        var id = this.props.user.uid
+        var tipe = this.state.tipe ? this.state.tipe : null
+        var modelPilih = this.state.modelPilih ? this.state.modelPilih : null
+        var fotoPilih = this.state.fotoPilih ? this.state.fotoPilih : null
+        var seat = this.state.seat ? this.state.seat : null
+        var plat = this.state.plat ? this.state.plat : null
+        var th = this.state.th ? this.state.th : null
+        alert(id + tipe + modelPilih + fotoPilih + seat + plat + th)
     }
 
     render(){
@@ -68,7 +196,9 @@ class Profil extends Component{
 
     return(
         <div>
-            
+
+        <ToastContainer style={{marginTop:'100px', fontSize:16}}/>
+        
         {/* layanan */}
         <section id="layanan" className="pricing_part section_padding home_page_pricing">
             <div className="container">
@@ -84,12 +214,13 @@ class Profil extends Component{
                     <div className="col-lg-4 col-sm-6">
                         <div className="single_pricing_part">
                             <img style={{width:'200px', height:'200px'}} 
-                            src='./img/user.png' alt=''/>
+                            src={this.state.foto ? `${this.props.host}/profile/${this.state.foto}` : '/img/user.png'} alt=''/>
                             <br/>
                             <label className='btn btn-warning text-white' style={{cursor: 'pointer'}} for="upload-photo">
                                 <i className="fas fa-camera"></i>&nbsp;&nbsp;Upload Foto
                             </label>
-                            <input style={{opacity: 0, position: 'absolute', zIndex: -1}} type="file" name="photo" id="upload-photo" />
+                            <input onChange={this.postFoto}
+                            style={{opacity: 0, position: 'absolute', zIndex: -1}} type="file" name="photo" id="upload-photo" />
                         </div>
                     </div>
                     <div className="col-lg-8 col-sm-6">
@@ -103,8 +234,8 @@ class Profil extends Component{
                                     </span>
                                 </div>
                                 <input value={this.state.nama} onChange={this.namaInput}
-                                style={this.props.user.unama ? {fontWeight:'bold'} : {fontStyle:'italic'}}
-                                type="text" className="form-control" placeholder={this.props.user.unama ? this.props.user.unama : 'Ketik nama Anda ...'} 
+                                style={this.state.nama ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                                type="text" className="form-control" placeholder='Ketik nama Anda ...'
                                 aria-label="Username" aria-describedby="basic-addon1"/>
                             </div>
 
@@ -116,8 +247,8 @@ class Profil extends Component{
                                     </span>
                                 </div>
                                 <input value={this.state.email} onChange={this.emailInput}
-                                style={this.props.user.uemail ? {fontWeight:'bold'} : {fontStyle:'italic'}}
-                                type="text" className="form-control" placeholder={this.props.user.uemail ? this.props.user.uemail : "Ketik email Anda ..."} 
+                                style={this.state.email ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                                type="text" className="form-control" placeholder="Ketik email Anda ..." 
                                 aria-label="Email" aria-describedby="basic-addon1"/>
                             </div>
                         </div>
@@ -131,8 +262,8 @@ class Profil extends Component{
                                     </span>
                                 </div>
                                 <input value={this.state.telp} onChange={this.telpInput}
-                                style={this.props.user.utelp ? {fontWeight:'bold'} : {fontStyle:'italic'}}
-                                type="number" className="form-control" placeholder={this.props.user.utelp ? this.props.user.utelp : "Ketik no. telephone Anda ..."} 
+                                style={this.state.telp ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                                type="number" className="form-control" placeholder="Ketik no. telephone Anda ..." 
                                 aria-label="Email" aria-describedby="basic-addon1"/>
                             </div>
 
@@ -144,9 +275,9 @@ class Profil extends Component{
                                     </span>
                                 </div>
                                 <input value={this.state.password} onChange={this.passInput}
-                                style={this.props.user.upassword ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                                style={this.state.password ? {fontWeight:'bold'} : {fontStyle:'italic'}}
                                 type="password" className="form-control" 
-                                placeholder={this.props.user.upassword ? '•'.repeat(this.props.user.upassword.length) : "Ketik password Anda ..."} 
+                                placeholder="Ketik password Anda ..."
                                 aria-label="Email" aria-describedby="basic-addon1"/>
                             </div>
                         </div>
@@ -159,8 +290,8 @@ class Profil extends Component{
                                 </span>
                             </div>
                             <textarea value={this.state.alamat} onChange={this.alamatInput}
-                            style={this.props.user.ualamat ? {fontWeight:'bold'} : {fontStyle:'italic'}}
-                            type="text" className="form-control" placeholder={this.props.user.ualamat ? this.props.user.ualamat : "Ketik alamat Anda ..."} 
+                            style={this.state.alamat ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                            type="text" className="form-control" placeholder="Ketik alamat Anda ..."
                             aria-label="Email" aria-describedby="basic-addon1"></textarea>
                         </div>
 
@@ -172,13 +303,13 @@ class Profil extends Component{
                                 </span>
                             </div>
                             <input value={this.state.kota} onChange={this.kotaInput}
-                            style={this.props.user.ukota ? {fontWeight:'bold'} : {fontStyle:'italic'}}
-                            type="text" className="form-control" placeholder={this.props.user.ukota ? this.props.user.ukota : "Ketik kota Anda ..."} 
+                            style={this.state.kota ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                            type="text" className="form-control" placeholder="Ketik kota Anda ..."
                             aria-label="Email" aria-describedby="basic-addon1"/>
                         </div>
 
                         <div className='row justify-content-end'>
-                            <button onClick={()=>{window.location.replace("/profil")}}
+                            <button onClick={()=>{window.location.replace(`/profil/${this.state.id}`)}}
                             type="button" className="btn btn-danger">
                                 <i className="fas fa-window-close"></i>&nbsp;&nbsp;Batal
                             </button>
@@ -215,7 +346,7 @@ class Profil extends Component{
                 </div>
 
             </div>
-            <img src="img/animate_icon/Ellipse_2.png" alt="" className="feature_icon_2 custom-animation2"/>
+            <img src="/img/animate_icon/Ellipse_2.png" alt="" className="feature_icon_2 custom-animation2"/>
 
         </section>
 
@@ -246,15 +377,15 @@ class Profil extends Component{
                             onClick={(e)=>{
                                 this.setState({tipe: e.target.text, modelPilih:'', 
                                 model: [
-                                    {nama:'Calya', foto:'./img/toyota/calya.png'}, 
-                                    {nama:'Sienta', foto:'./img/toyota/sienta.png'},
-                                    {nama:'Avanza', foto:'./img/toyota/avanza.png'},
-                                    {nama:'Veloz', foto:'./img/toyota/veloz.png'},
-                                    {nama:'Venturer', foto:'./img/toyota/venturer.png'},
-                                    {nama:'Voxy', foto:'./img/toyota/voxy.png'},
-                                    {nama:'Kijang Innova', foto:'./img/toyota/kijanginnova.png'},
-                                    {nama:'Alphard', foto:'./img/toyota/alphard.png'},
-                                    {nama:'Vellfire', foto:'./img/toyota/vellfire.png'}
+                                    {nama:'Calya', foto:'/img/toyota/calya.png'}, 
+                                    {nama:'Sienta', foto:'/img/toyota/sienta.png'},
+                                    {nama:'Avanza', foto:'/img/toyota/avanza.png'},
+                                    {nama:'Veloz', foto:'/img/toyota/veloz.png'},
+                                    {nama:'Venturer', foto:'/img/toyota/venturer.png'},
+                                    {nama:'Voxy', foto:'/img/toyota/voxy.png'},
+                                    {nama:'Kijang Innova', foto:'/img/toyota/kijanginnova.png'},
+                                    {nama:'Alphard', foto:'/img/toyota/alphard.png'},
+                                    {nama:'Vellfire', foto:'/img/toyota/vellfire.png'}
                                 ]})}}>
                                 MPV
                             </a>
@@ -262,9 +393,9 @@ class Profil extends Component{
                             onClick={(e)=>{
                                 this.setState({tipe: e.target.text, modelPilih:'', 
                                 model:[
-                                    {nama:'Corolla Altis', foto:'./img/toyota/corollaaltis.png'},
-                                    {nama:'Camry', foto:'./img/toyota/camry.png'},
-                                    {nama:'Vios', foto:'./img/toyota/vios.png'}
+                                    {nama:'Corolla Altis', foto:'/img/toyota/corollaaltis.png'},
+                                    {nama:'Camry', foto:'/img/toyota/camry.png'},
+                                    {nama:'Vios', foto:'/img/toyota/vios.png'}
                                 ]})}}>
                                 Sedan
                             </a>
@@ -272,9 +403,9 @@ class Profil extends Component{
                             onClick={(e)=>{
                                 this.setState({tipe: e.target.text, modelPilih:'', 
                                 model:[
-                                    {nama:'Fortuner', foto:'./img/toyota/fortuner.png'},
-                                    {nama:'C-HR', foto:'./img/toyota/chr.png'},
-                                    {nama:'Rush', foto:'./img/toyota/rush.png'},
+                                    {nama:'Fortuner', foto:'/img/toyota/fortuner.png'},
+                                    {nama:'C-HR', foto:'/img/toyota/chr.png'},
+                                    {nama:'Rush', foto:'/img/toyota/rush.png'},
                                 ]})}}>
                                 SUV
                             </a>
@@ -282,35 +413,35 @@ class Profil extends Component{
                             onClick={(e)=>{
                                 this.setState({tipe: e.target.text, modelPilih:'', 
                                 model: [
-                                    {nama:'Corolla Altis Hybrid', foto:'./img/toyota/corollaaltishybrid.png'},
-                                    {nama:'C-HR Hybrid', foto:'./img/toyota/chrhybrid.png'},
-                                    {nama:'Alphard Hybrid', foto:'./img/toyota/alphardhybrid.png'},
+                                    {nama:'Corolla Altis Hybrid', foto:'/img/toyota/corollaaltishybrid.png'},
+                                    {nama:'C-HR Hybrid', foto:'/img/toyota/chrhybrid.png'},
+                                    {nama:'Alphard Hybrid', foto:'/img/toyota/alphardhybrid.png'},
                                 ]})}}>
                                 Hybrid
                             </a>
                             <a className="dropdown-item" style={{cursor:'pointer'}} 
                             onClick={(e)=>{this.setState({tipe: e.target.text, modelPilih:'', 
                             model:[
-                                {nama:'Yaris', foto:'./img/toyota/yaris.png'},
-                                {nama:'Agya', foto:'./img/toyota/agya.png'},
+                                {nama:'Yaris', foto:'/img/toyota/yaris.png'},
+                                {nama:'Agya', foto:'/img/toyota/agya.png'},
                             ]})}}>
                                 Hatchback
                             </a>
                             <a className="dropdown-item" style={{cursor:'pointer'}} 
                             onClick={(e)=>{this.setState({tipe: e.target.text, modelPilih:'', 
                             model:[
-                                {nama:'Hilux D Cab', foto:'./img/toyota/hiluxdcab.png'},
-                                {nama:'Hilux S Cab', foto:'./img/toyota/hiluxscab.png'},
-                                {nama:'HiAce', foto:'./img/toyota/hiace.png'},
-                                {nama:'Dyna', foto:'./img/toyota/dyna.png'},
+                                {nama:'Hilux D Cab', foto:'/img/toyota/hiluxdcab.png'},
+                                {nama:'Hilux S Cab', foto:'/img/toyota/hiluxscab.png'},
+                                {nama:'HiAce', foto:'/img/toyota/hiace.png'},
+                                {nama:'Dyna', foto:'/img/toyota/dyna.png'},
                             ]})}}>
                                 Commercial
                             </a>
                             <a className="dropdown-item" style={{cursor:'pointer'}} 
                             onClick={(e)=>{this.setState({tipe: e.target.text, modelPilih:'', 
                             model: [
-                                {nama:'Toyota 86', foto:'./img/toyota/toyota86.png'},
-                                {nama:'Toyota Supra', foto:'./img/toyota/toyotasupra.png'},
+                                {nama:'Toyota 86', foto:'/img/toyota/toyota86.png'},
+                                {nama:'Toyota Supra', foto:'/img/toyota/toyotasupra.png'},
                             ]})}}>
                                 Sport
                             </a>
@@ -353,6 +484,7 @@ class Profil extends Component{
                         </div>
                         <input 
                         value={this.state.plat} onChange={this.platInput} 
+                        style={this.state.plat ? {fontWeight:'bold'} : {fontStyle:'italic'}}
                         type="text" className="form-control" placeholder="Plat nomor ..." 
                         aria-label="Username" aria-describedby="basic-addon1"/>
                     </div>
@@ -366,6 +498,7 @@ class Profil extends Component{
                         </div>
                         <input 
                         value={this.state.seat} onChange={this.seatInput} 
+                        style={this.state.seat ? {fontWeight:'bold'} : {fontStyle:'italic'}}
                         type="number" className="form-control" placeholder="Jumlah seat ..." 
                         aria-label="Username" aria-describedby="basic-addon1"/>
                     </div>
@@ -379,6 +512,7 @@ class Profil extends Component{
                         </div>
                         <input 
                         value={this.state.th} onChange={this.thInput} 
+                        style={this.state.th ? {fontWeight:'bold'} : {fontStyle:'italic'}}
                         type="number" className="form-control" placeholder="Tahun ..." 
                         aria-label="Username" aria-describedby="basic-addon1"/>
                     </div>
@@ -386,11 +520,12 @@ class Profil extends Component{
                 
             </div>
             <div className="modal-footer">
-                <button type="button" className="btn btn-danger" data-dismiss="modal">
+                <button onClick={()=>{this.setState({tipe:'', model:[], modelPilih:'', fotoPilih:'', plat:'', seat:'', th:''})}}
+                type="button" className="btn btn-danger" data-dismiss="modal">
                     <i className="fas fa-window-close"></i>&nbsp;&nbsp;Batal
                 </button>
                 <button
-                type="button" className="btn btn-success text-white">
+                type="button" onClick={this.tambahMobil} className="btn btn-success text-white">
                     <i className="fas fa-plus-square"></i>&nbsp;&nbsp;Tambah
                 </button>
             </div>
