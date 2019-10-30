@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Footer from './komponen/0b_footer'
 import Banner from './komponen/0a_banner'
 import Profil from './komponen/0c_profil'
+import ToyotaCar from './komponen/0d_toyotacar'
 
 class App extends Component{
 
@@ -221,7 +222,7 @@ class App extends Component{
                                     <a className="dropdown-item" href={`/profil/${this.state.user.uid}`}>
                                         Profil Saya
                                     </a>
-                                    <a className="dropdown-item" href={`/profil/${this.state.user.uid}`}>
+                                    <a className="dropdown-item" href={`/mytoyota/${this.state.user.uid}`}>
                                         Toyota Saya
                                     </a>
                                     <a style={{cursor:'pointer'}} onClick={this.logout} className="dropdown-item">
@@ -280,7 +281,9 @@ class App extends Component{
                             <i class="fas fa-user"></i>
                         </span>
                     </div>
-                    <input value={this.state.nama} onChange={this.namaInput} type="text" className="form-control" placeholder="Ketik nama Anda ..." 
+                    <input value={this.state.nama} onChange={this.namaInput} 
+                    style={this.state.nama ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                    type="text" className="form-control" placeholder="Ketik nama Anda ..." 
                     aria-label="Username" aria-describedby="basic-addon1"/>
                 </div>
                 
@@ -291,7 +294,9 @@ class App extends Component{
                             <i class="fas fa-envelope"></i>
                         </span>
                     </div>
-                    <input value={this.state.email} onChange={this.emailInput} type="email" className="form-control" placeholder="Ketik email Anda ..." 
+                    <input value={this.state.email} onChange={this.emailInput} 
+                    style={this.state.email ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                    type="email" className="form-control" placeholder="Ketik email Anda ..." 
                     aria-label="Username" aria-describedby="basic-addon1"/>
                 </div>
                 
@@ -302,7 +307,9 @@ class App extends Component{
                             <i class="fas fa-unlock-alt"></i>
                         </span>
                     </div>
-                    <input value={this.state.password} onChange={this.passInput} type="password" className="form-control" placeholder="Ketik password ..." 
+                    <input value={this.state.password} onChange={this.passInput} 
+                    style={this.state.password ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                    type="password" className="form-control" placeholder="Ketik password ..." 
                     aria-label="Username" aria-describedby="basic-addon1"/>
                 </div>
 
@@ -342,7 +349,9 @@ class App extends Component{
                             <i class="fas fa-envelope"></i>
                         </span>
                     </div>
-                    <input value={this.state.email} onChange={this.emailInput} type="email" className="form-control" placeholder="Ketik email Anda ..." 
+                    <input value={this.state.email} onChange={this.emailInput}
+                    style={this.state.email ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                    type="email" className="form-control" placeholder="Ketik email Anda ..." 
                     aria-label="Username" aria-describedby="basic-addon1"/>
                 </div>
                 
@@ -353,7 +362,9 @@ class App extends Component{
                             <i class="fas fa-unlock-alt"></i>
                         </span>
                     </div>
-                    <input value={this.state.password} onChange={this.passInput} type="password" className="form-control" placeholder="Ketik password ..." 
+                    <input value={this.state.password} onChange={this.passInput} 
+                    style={this.state.password ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                    type="password" className="form-control" placeholder="Ketik password ..." 
                     aria-label="Username" aria-describedby="basic-addon1"/>
                 </div>
 
@@ -373,6 +384,7 @@ class App extends Component{
         <div>
             <Route exact path="/" component={Banner}/>
             <Route path="/profil/:uid" render={(props) => <Profil {...props} user={this.state.user} host={this.state.host}/>}/>
+            <Route path="/mytoyota/:uid" render={(props) => <ToyotaCar {...props} user={this.state.user} host={this.state.host}/>}/>
         </div>
         
         <Footer/>

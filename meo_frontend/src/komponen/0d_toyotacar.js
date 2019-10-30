@@ -3,13 +3,12 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-class Profil extends Component{
+class ToyotaCar extends Component{
   
     constructor(props){
         super(props)
         this.state = {
             tipe: '', model: [], modelPilih: '', fotoPilih: '', plat: '', seat: '', th: '', info: '',
-            id: '', nama: '', email: '', password: '', telp: '', alamat: '', kota: '', 
             foto: '', file: '',
             mymobil: [], jmlmobil: 0
         }
@@ -49,25 +48,6 @@ class Profil extends Component{
         }).catch((x)=>{
             console.log('no')
         })
-    }
-
-    namaInput = (event) => {
-        this.setState({nama: event.target.value});
-    }
-    emailInput = (event) => {
-        this.setState({email: event.target.value});
-    }
-    passInput = (event) => {
-        this.setState({password: event.target.value});
-    }
-    telpInput = (event) => {
-        this.setState({telp: event.target.value});
-    }
-    alamatInput = (event) => {
-        this.setState({alamat: event.target.value});
-    }
-    kotaInput = (event) => {
-        this.setState({kota: event.target.value});
     }
 
     platInput = (event) => {
@@ -120,62 +100,6 @@ class Profil extends Component{
                     pauseOnHover: true,
                     draggable: true,
                 });
-            });
-        })
-    }
-
-    updateProfil = () => {
-        var id = this.state.id ? this.state.id : null
-        var nama = this.state.nama ? this.state.nama : null
-        var email = this.state.email ? this.state.email : null
-        var password = this.state.password ? this.state.password : null
-        var foto = this.state.foto ? this.state.foto : null
-        var telp = this.state.telp ? this.state.telp : null
-        var alamat = this.state.alamat ? this.state.alamat : null
-        var kota = this.state.kota ? this.state.kota : null 
-        var url = this.props.host
-        axios.put(url + '/update', {
-            "unama": nama,
-            "uemail": email,
-            "upassword": password,
-            "ufoto": foto,
-            "ualamat": alamat,
-            "ukota": kota,
-            "utelp": telp,
-            "uid": id
-        }).then((x)=>{
-            if(x.data.statusUpdate == 'ok'){
-                this.setState({
-                    nama: nama, email: email, password: password, foto: foto, 
-                    telp: telp, alamat: alamat, kota: kota
-                })
-                toast.success(`🎉 Profil sukses terupdate 👍`, {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                });
-                window.location.replace(`/profil/${this.state.id}`)
-            } else {
-                toast.error(`😭 Maaf, profil gagal terupdate. Coba lagi nanti 👍`, {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                });
-            }
-        }).catch((x)=>{
-            toast.error(`😭 Maaf, profil gagal terupdate. Coba lagi nanti 👍`, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
             });
         })
     }
@@ -250,19 +174,54 @@ class Profil extends Component{
 
     var myMobil = this.state.mymobil.map((val, i)=>{
         return (
-            <div key={i} className="col-lg-2 col-sm-4">
-                <div className="single_pricing_part">
-                    <a style={{cursor:'pointer'}}>
-                        <img src={val.cfoto}/>
-                        <a className="pricing_btn">
-                            {val.cmodel}
+            <>
+            <div key={i} className='row'>
+                <div className="col-lg-2 col-sm-4">
+                    <div className="single_pricing_part">
+                        <a style={{cursor:'pointer'}}>
+                            <img src={val.cfoto}/>
+                            <a className="pricing_btn">
+                                {val.cmodel}
+                            </a>
+                            <p className="pricing_btn">
+                                {val.cplat}
+                            </p>
                         </a>
-                        <p className="pricing_btn">
-                            {val.cplat}
-                        </p>
-                    </a>
+                    </div>
+                </div>
+                <div className="col-sm-8">
+                    <div className='row'>
+                        <h4 className="ml-2 col-sm-2 alert alert-warning">
+                            <i style={{color:'orange'}} className="fas fa-car"></i>&nbsp;&nbsp;{val.ctipe}
+                        </h4>
+                        <h4 className="ml-2 col-sm-3 alert alert-warning">
+                            <i style={{color:'orange'}} className="fas fa-car-side"></i>&nbsp;&nbsp;{val.cmodel}
+                        </h4>
+                        <h4 className="ml-2 col-sm-2 alert alert-warning">
+                            <i style={{color:'orange'}} className="far fa-calendar"></i>&nbsp;&nbsp;{val.cth}
+                        </h4>
+                        {/* <h4 className="ml-2 col-sm-2 alert alert-warning">
+                            <i style={{color:'orange'}} className="fas fa-id-card"></i>&nbsp;&nbsp;{val.cplat.toUpperCase()}
+                        </h4> */}
+                        <h4 className="ml-2 col-sm-2 alert alert-warning">
+                            <i style={{color:'orange'}} className="fas fa-users"></i>&nbsp;&nbsp;{val.cseat} orang
+                        </h4>
+                    </div>
+                    <div className="row">
+                        <h4 className="col-sm-8">
+                            <i style={{color:'orange'}} className="fas fa-quote-right"></i>&nbsp;&nbsp;<i>{val.cinfo}</i>
+                        </h4>
+                    </div>
+                    <hr className='my-3'></hr>
+                    <label className='btn btn-warning text-white' style={{cursor: 'pointer'}} for="upload-photo">
+                        <i className="fas fa-camera"></i>&nbsp;&nbsp;Upload Foto
+                    </label>
+                    <input onChange={this.postFoto}
+                    style={{opacity: 0, position: 'absolute', zIndex: -1}} type="file" name="photo" id="upload-photo" />
                 </div>
             </div>
+            <hr className='my-5'></hr>
+            </>
         )
     })
 
@@ -274,137 +233,16 @@ class Profil extends Component{
         {/* layanan */}
         <section id="layanan" className="pricing_part section_padding home_page_pricing">
             <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-lg-12">
-                        <div className="mt-5 section_tittle">
-                            <h2>Profil Saya</h2>
-                            <p>Akun Terdaftar: <b>{tglreg}</b> | Terakhir update: <b>{tglupdate}</b></p>
-                        </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-lg-4 col-sm-6">
-                        <div className="single_pricing_part">
-                            <img style={{width:'200px', height:'200px'}} 
-                            src={this.state.foto ? `${this.props.host}/profile/${this.state.foto}` : '/img/user.png'} alt=''/>
-                            <br/>
-                            <label className='btn btn-warning text-white' style={{cursor: 'pointer'}} for="upload-photo">
-                                <i className="fas fa-camera"></i>&nbsp;&nbsp;Upload Foto
-                            </label>
-                            <input onChange={this.postFoto}
-                            style={{opacity: 0, position: 'absolute', zIndex: -1}} type="file" name="photo" id="upload-photo" />
-                        </div>
-                    </div>
-                    <div className="col-lg-8 col-sm-6">
-                        
-                        <div className='row'>
-                            {/* nama */}
-                            <div className="col-sm-6 input-group mb-3">
-                                <div className="input-group-prepend">
-                                    <span style={{backgroundColor:'#ffe4b8', color:'orange'}} className="input-group-text" id="basic-addon1">
-                                        <i className="fas fa-id-card"></i>
-                                    </span>
-                                </div>
-                                <input value={this.state.nama} onChange={this.namaInput}
-                                style={this.state.nama ? {fontWeight:'bold'} : {fontStyle:'italic'}}
-                                type="text" className="form-control" placeholder='Ketik nama Anda ...'
-                                aria-label="Username" aria-describedby="basic-addon1"/>
-                            </div>
-
-                            {/* email */}
-                            <div className="col-sm-6 input-group mb-3">
-                                <div className="input-group-prepend">
-                                    <span style={{backgroundColor:'#ffe4b8', color:'orange'}} className="input-group-text" id="basic-addon1">
-                                        <i className="fas fa-envelope"></i>
-                                    </span>
-                                </div>
-                                <input value={this.state.email} onChange={this.emailInput}
-                                style={this.state.email ? {fontWeight:'bold'} : {fontStyle:'italic'}}
-                                type="text" className="form-control" placeholder="Ketik email Anda ..." 
-                                aria-label="Email" aria-describedby="basic-addon1"/>
-                            </div>
-                        </div>
-
-                        <div className='row'>
-                            {/* telp */}
-                            <div className="col-sm-6 input-group mb-3">
-                                <div className="input-group-prepend">
-                                    <span style={{backgroundColor:'#ffe4b8', color:'orange'}} className="input-group-text" id="basic-addon1">
-                                        <i className="fas fa-phone-alt"></i>
-                                    </span>
-                                </div>
-                                <input value={this.state.telp} onChange={this.telpInput}
-                                style={this.state.telp ? {fontWeight:'bold'} : {fontStyle:'italic'}}
-                                type="number" className="form-control" placeholder="Ketik no. telephone Anda ..." 
-                                aria-label="Email" aria-describedby="basic-addon1"/>
-                            </div>
-
-                            {/* password */}
-                            <div className="col-sm-6 input-group mb-3">
-                                <div className="input-group-prepend">
-                                    <span style={{backgroundColor:'#ffe4b8', color:'orange'}} className="input-group-text" id="basic-addon1">
-                                        <i className="fas fa-unlock-alt"></i>
-                                    </span>
-                                </div>
-                                <input value={this.state.password} onChange={this.passInput}
-                                style={this.state.password ? {fontWeight:'bold'} : {fontStyle:'italic'}}
-                                type="password" className="form-control" 
-                                placeholder="Ketik password Anda ..."
-                                aria-label="Email" aria-describedby="basic-addon1"/>
-                            </div>
-                        </div>
-
-                        {/* alamat */}
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                                <span style={{backgroundColor:'#ffe4b8', color:'orange'}} className="align-items-start input-group-text" id="basic-addon1">
-                                    <i className="mt-1 fas fa-map-marker-alt"></i>
-                                </span>
-                            </div>
-                            <textarea value={this.state.alamat} onChange={this.alamatInput}
-                            style={this.state.alamat ? {fontWeight:'bold'} : {fontStyle:'italic'}}
-                            type="text" className="form-control" placeholder="Ketik alamat Anda ..."
-                            aria-label="Email" aria-describedby="basic-addon1"></textarea>
-                        </div>
-
-                        {/* kota */}
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                                <span style={{backgroundColor:'#ffe4b8', color:'orange'}} className="input-group-text" id="basic-addon1">
-                                    <i className="fas fa-map-marked-alt"></i>
-                                </span>
-                            </div>
-                            <input value={this.state.kota} onChange={this.kotaInput}
-                            style={this.state.kota ? {fontWeight:'bold'} : {fontStyle:'italic'}}
-                            type="text" className="form-control" placeholder="Ketik kota Anda ..."
-                            aria-label="Email" aria-describedby="basic-addon1"/>
-                        </div>
-
-                        <div className='row justify-content-end'>
-                            <button onClick={()=>{window.location.replace(`/profil/${this.state.id}`)}}
-                            type="button" className="btn btn-danger">
-                                <i className="fas fa-window-close"></i>&nbsp;&nbsp;Batal
-                            </button>
-                            <button onClick={this.updateProfil} 
-                            type="button" className="ml-2 mr-3 btn btn-success text-white">
-                                <i className="fas fa-edit"></i>&nbsp;&nbsp;Update
-                            </button>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <hr className='mt-5'></hr>
                 
                 <div className="mt-5 section_tittle">
                     <h2>Toyota Saya</h2>
                     <p>Jumlah Toyota Terdaftar: <b>{this.state.jmlmobil} mobil</b></p>
                 </div>
-                <div className="row">
-                    
-                    {myMobil ? myMobil : <></>}
+                <hr className='my-5'></hr>
 
+                {myMobil ? myMobil : <></>}
+
+                <div className="row">
                     <div className="col-lg-2 col-sm-4">
                         <div className="single_pricing_part">
                             <a style={{cursor:'pointer'}} data-toggle="modal" data-target="#addMobilModal">
@@ -417,7 +255,6 @@ class Profil extends Component{
                             </a>
                         </div>
                     </div>
-
                 </div>
 
             </div>
@@ -628,4 +465,4 @@ class Profil extends Component{
   }
 }
 
-export default Profil
+export default ToyotaCar
