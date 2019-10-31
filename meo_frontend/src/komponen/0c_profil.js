@@ -345,9 +345,9 @@ class Profil extends Component{
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-lg-4 col-sm-6">
+                    <div className="col-lg-3 col-sm-6">
                         <div className="single_pricing_part">
-                            <img style={{width:'200px', height:'200px'}} 
+                            <img style={{width:'150px', height:'150px'}} 
                             src={this.state.foto ? `${this.props.host}/profile/${this.state.foto}` : '/img/user.png'} alt=''/>
                             <br/>
                             <label className='btn btn-warning text-white' style={{cursor: 'pointer'}} for="upload-photo">
@@ -357,7 +357,7 @@ class Profil extends Component{
                             style={{opacity: 0, position: 'absolute', zIndex: -1}} type="file" name="photo" id="upload-photo" />
                         </div>
                     </div>
-                    <div className="col-lg-8 col-sm-6">
+                    <div className="col-lg-9 col-sm-6">
                         
                         <div className='row'>
                             {/* nama */}
@@ -419,8 +419,9 @@ class Profil extends Component{
                         {/* alamat */}
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
-                                <span style={{backgroundColor:'#ffe4b8', color:'orange'}} className="align-items-start input-group-text" id="basic-addon1">
-                                    <i className="mt-1 fas fa-map-marker-alt"></i>
+                                <span style={{backgroundColor:'#ffe4b8', color:'orange'}} 
+                                className="align-items-start input-group-text" id="basic-addon1">
+                                    <i className="mt-1 fas fa-map-marker-alt px-1"></i>
                                 </span>
                             </div>
                             <textarea value={this.state.alamat} onChange={this.alamatInput}
@@ -541,6 +542,7 @@ class Profil extends Component{
                                 this.setState({tipe: e.target.text, modelPilih:'', 
                                 model:[
                                     {nama:'Fortuner', foto:'/img/toyota/fortuner.png'},
+                                    {nama:'Land Cruiser', foto:'/img/toyota/landcruiser.png'},
                                     {nama:'C-HR', foto:'/img/toyota/chr.png'},
                                     {nama:'Rush', foto:'/img/toyota/rush.png'},
                                 ]})}}>
@@ -551,6 +553,7 @@ class Profil extends Component{
                                 this.setState({tipe: e.target.text, modelPilih:'', 
                                 model: [
                                     {nama:'Corolla Altis Hybrid', foto:'/img/toyota/corollaaltishybrid.png'},
+                                    {nama:'Camry Hybrid', foto:'/img/toyota/camryhybrid.png'},
                                     {nama:'C-HR Hybrid', foto:'/img/toyota/chrhybrid.png'},
                                     {nama:'Alphard Hybrid', foto:'/img/toyota/alphardhybrid.png'},
                                 ]})}}>

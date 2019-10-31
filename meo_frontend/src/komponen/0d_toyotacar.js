@@ -363,6 +363,7 @@ class ToyotaCar extends Component{
                                 this.setState({tipe: e.target.text, modelPilih:'', 
                                 model:[
                                     {nama:'Fortuner', foto:'/img/toyota/fortuner.png'},
+                                    {nama:'Land Cruiser', foto:'/img/toyota/landcruiser.png'},
                                     {nama:'C-HR', foto:'/img/toyota/chr.png'},
                                     {nama:'Rush', foto:'/img/toyota/rush.png'},
                                 ]})}}>
@@ -373,6 +374,7 @@ class ToyotaCar extends Component{
                                 this.setState({tipe: e.target.text, modelPilih:'', 
                                 model: [
                                     {nama:'Corolla Altis Hybrid', foto:'/img/toyota/corollaaltishybrid.png'},
+                                    {nama:'Camry Hybrid', foto:'/img/toyota/camryhybrid.png'},
                                     {nama:'C-HR Hybrid', foto:'/img/toyota/chrhybrid.png'},
                                     {nama:'Alphard Hybrid', foto:'/img/toyota/alphardhybrid.png'},
                                 ]})}}>

@@ -91,7 +91,9 @@ class Banner extends Component{
         }
 
         {/* layanan */}
-        <section id="layanan" className="pricing_part section_padding home_page_pricing">
+        <section 
+        // style={this.props.user ? {backgroundImage:'url("./img/banner_bg.png")', backgroundRepeat: 'no-repeat', backgroundSize: '65% 100%', backgroundPosition: 'left top'} : {}}
+        id="layanan" className="pricing_part section_padding home_page_pricing">
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-lg-6">
@@ -236,7 +238,7 @@ class Banner extends Component{
                                             <input type="email" className="form-control" placeholder="Ketik email Anda..."/>
                                         </div>
                                         <div className="col-sm-3">
-                                            <div className="subscribe_btn">
+                                            <div className="subscribe_btn" style={{cursor:'pointer'}}>
                                                 <div className="btn_2 d-block">Berlangganan</div>
                                             </div>
                                         </div>
