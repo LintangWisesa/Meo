@@ -10,7 +10,8 @@ class ToyotaCar extends Component{
         this.state = {
             tipe: '', model: [], modelPilih: '', fotoPilih: '', plat: '', seat: '', th: '', info: '',
             foto: '', file: '',
-            mymobil: [], jmlmobil: 0
+            mymobil: [], jmlmobil: 0,
+            hapusModel: '', hapusId: '', hapusPlat: '', hapusFoto: ''
         }
     }
 
@@ -34,14 +35,14 @@ class ToyotaCar extends Component{
                     mymobil: x.data,
                     jmlmobil: x.data.length
                 })
-                toast.success(`🎉 Selamat datang, ${this.state.nama} 🤗`, {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                });  
+                // toast.success(`🎉 Selamat datang, ${this.state.nama} 🤗`, {
+                //     position: "top-right",
+                //     autoClose: 3000,
+                //     hideProgressBar: false,
+                //     closeOnClick: true,
+                //     pauseOnHover: true,
+                //     draggable: true,
+                // });  
             }).catch((x)=>{
                 console.log('no')
             })
@@ -133,9 +134,9 @@ class ToyotaCar extends Component{
                     pauseOnHover: true,
                     draggable: true,
                 });
-                window.location.replace(`/profil/${this.state.id}`)
+                window.location.replace(`/mytoyota/${this.state.id}`)
             } else {
-                toast.error(`😭 Maaf, profil gagal terupdate. Coba lagi nanti 👍`, {
+                toast.error(`😭 Maaf, mobil gagal ditambahkan. Coba lagi nanti 👍`, {
                     position: "top-right",
                     autoClose: 3000,
                     hideProgressBar: false,
@@ -145,7 +146,47 @@ class ToyotaCar extends Component{
                 });
             }
         }).catch((x)=>{
-            toast.error(`😭 Maaf, profil gagal terupdate. Coba lagi nanti 👍`, {
+            toast.error(`😭 Maaf, mobil gagal ditambahkan. Coba lagi nanti 👍`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+        })
+    }
+
+    pilihHapus = (cid, cmodel, cplat, cfoto) => {
+        this.setState({
+            hapusId: cid, hapusModel: cmodel, hapusPlat: cplat, hapusFoto: cfoto
+        })
+    }
+    hapusMobil = (cid) => {
+        var url = this.props.host
+        axios.delete(url + '/car/' + cid).then((x)=>{
+            if(x.data.status == 'ok'){
+                toast.success(`🎉 Mobil sukses dihapus 👍`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+                window.location.replace(`/mytoyota/${this.state.id}`)
+            } else {
+                toast.error(`😭 Maaf, mobil gagal dihapus. Coba lagi nanti 👍`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            }
+        }).catch((x)=>{
+            toast.error(`😭 Maaf, mobil gagal dihapus. Coba lagi nanti 👍`, {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -178,6 +219,13 @@ class ToyotaCar extends Component{
             <div key={i} className='row'>
                 <div className="col-lg-2 col-sm-4">
                     <div className="single_pricing_part">
+                        <button 
+                        onClick={()=>{this.pilihHapus(val.cid, val.cmodel, val.cplat, val.cfoto)}}
+                        data-toggle="modal" data-target="#delMobilModal"
+                        style={{position:'absolute', zIndex:99, marginLeft:'-35px', marginTop:'-34px'}} 
+                        className='btn btn-danger btn-sm'>
+                            <i className="fas fa-times"></i>
+                        </button>
                         <a style={{cursor:'pointer'}}>
                             <img src={val.cfoto}/>
                             <a className="pricing_btn">
@@ -191,7 +239,7 @@ class ToyotaCar extends Component{
                 </div>
                 <div className="col-sm-8">
                     <div className='row'>
-                        <h4 className="ml-2 col-sm-2 alert alert-warning">
+                        <h4 className="ml-2 col-sm-3 alert alert-warning">
                             <i style={{color:'orange'}} className="fas fa-car"></i>&nbsp;&nbsp;{val.ctipe}
                         </h4>
                         <h4 className="ml-2 col-sm-3 alert alert-warning">
@@ -204,11 +252,11 @@ class ToyotaCar extends Component{
                             <i style={{color:'orange'}} className="fas fa-id-card"></i>&nbsp;&nbsp;{val.cplat.toUpperCase()}
                         </h4> */}
                         <h4 className="ml-2 col-sm-2 alert alert-warning">
-                            <i style={{color:'orange'}} className="fas fa-users"></i>&nbsp;&nbsp;{val.cseat} orang
+                            <i style={{color:'orange'}} className="fas fa-users"></i>&nbsp;&nbsp;{val.cseat} <small>orang</small>
                         </h4>
                     </div>
                     <div className="row">
-                        <h4 className="col-sm-8">
+                        <h4 className="col-sm-12">
                             <i style={{color:'orange'}} className="fas fa-quote-right"></i>&nbsp;&nbsp;<i>{val.cinfo}</i>
                         </h4>
                     </div>
@@ -261,8 +309,7 @@ class ToyotaCar extends Component{
             <img src="/img/animate_icon/Ellipse_2.png" alt="" className="feature_icon_2 custom-animation2"/>
 
         </section>
-
-
+        
         {/* modal add mobil */}
         <div style={{marginTop:'150px'}} className="modal fade" id="addMobilModal" tabindex="-1" role="dialog" 
         aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -453,6 +500,39 @@ class ToyotaCar extends Component{
                 <button
                 type="button" onClick={this.tambahMobil} className="btn btn-success text-white">
                     <i className="fas fa-plus-square"></i>&nbsp;&nbsp;Tambah
+                </button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        {/* modal delete mobil */}
+        <div style={{marginTop:'150px'}} className="modal fade" id="delMobilModal" tabindex="-1" role="dialog" 
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+            <div className="modal-content">
+            <div className="modal-header bg-warning">
+                <h5 className="text-white modal-title" id="exampleModalLabel">
+                    Hapus Mobil
+                </h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" className='text-white'>&times;</span>
+                </button>
+            </div>
+            <div className="modal-body">
+                <h4>
+                    <img width='50px' src={this.state.hapusFoto}/>
+                    &nbsp;Yakin ingin menghapus <b>{this.state.hapusModel} {this.state.hapusPlat.toUpperCase()}</b> ?
+                </h4>
+            </div>
+            <div className="modal-footer">
+                <button type="button" className="btn btn-danger" data-dismiss="modal">
+                    <i className="fas fa-window-close"></i>&nbsp;&nbsp;Batal
+                </button>
+                <button
+                type="button" onClick={()=>{this.hapusMobil(this.state.hapusId)}} 
+                className="btn btn-success text-white">
+                    <i className="fas fa-trash-alt"></i>&nbsp;&nbsp;Hapus
                 </button>
             </div>
             </div>

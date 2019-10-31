@@ -11,7 +11,8 @@ class Profil extends Component{
             tipe: '', model: [], modelPilih: '', fotoPilih: '', plat: '', seat: '', th: '', info: '',
             id: '', nama: '', email: '', password: '', telp: '', alamat: '', kota: '', 
             foto: '', file: '',
-            mymobil: [], jmlmobil: 0
+            mymobil: [], jmlmobil: 0,
+            hapusModel: '', hapusId: '', hapusPlat: '', hapusFoto: ''
         }
     }
 
@@ -85,7 +86,7 @@ class Profil extends Component{
 
     postFoto = (e) => {
         this.setState({
-            foto: e.target.files[0].name,
+            foto: `${this.props.host}/profile/loading.png`,
             file: e.target.files[0]
         }, ()=>{
             const formData = new FormData();
@@ -99,17 +100,30 @@ class Profil extends Component{
             var url = this.props.host + '/profile'
             axios.post(url, formData, config)
             .then((response) => {
-                toast.success(`Foto ${response.data.fotoTerupload} sukses terupload 🤩 Klik Update profil untuk mengganti foto.`, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                });
-                // console.log(response.data)
-                this.setState({
-                    foto: response.data.fotoTerupload
+                var url = this.props.host + '/profile'
+                axios.post(url, formData, config)
+                .then((response) => {
+                    toast.success(`Foto profil sukses terupload 🤩 Klik Update profil untuk mengganti foto.`, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                    });
+                    // console.log(response.data)
+                    this.setState({
+                        foto: response.data.fotoTerupload
+                    })
+                }).catch((error)=>{
+                    toast.error(`Foto gagal diperbarui 😭 silakan coba lagi 🙏`, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                    }); 
                 })
             }).catch((error) => {
                 toast.error(`Foto gagal diperbarui 😭 silakan coba lagi 🙏`, {
@@ -232,6 +246,46 @@ class Profil extends Component{
         })
     }
 
+    pilihHapus = (cid, cmodel, cplat, cfoto) => {
+        this.setState({
+            hapusId: cid, hapusModel: cmodel, hapusPlat: cplat, hapusFoto: cfoto
+        })
+    }
+    hapusMobil = (cid) => {
+        var url = this.props.host
+        axios.delete(url + '/car/' + cid).then((x)=>{
+            if(x.data.status == 'ok'){
+                toast.success(`🎉 Mobil sukses dihapus 👍`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+                window.location.replace(`/profil/${this.state.id}`)
+            } else {
+                toast.error(`😭 Maaf, mobil gagal dihapus. Coba lagi nanti 👍`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            }
+        }).catch((x)=>{
+            toast.error(`😭 Maaf, mobil gagal dihapus. Coba lagi nanti 👍`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+        })
+    }
+
     render(){
 
     const reg = new Date(this.props.user.utglreg)
@@ -252,7 +306,15 @@ class Profil extends Component{
         return (
             <div key={i} className="col-lg-2 col-sm-4">
                 <div className="single_pricing_part">
-                    <a style={{cursor:'pointer'}}>
+                    <button 
+                        onClick={()=>{this.pilihHapus(val.cid, val.cmodel, val.cplat, val.cfoto)}}
+                        data-toggle="modal" data-target="#delMobilModal"
+                        style={{position:'absolute', zIndex:99, marginLeft:'-35px', marginTop:'-34px'}} 
+                        className='btn btn-danger btn-sm'>
+                            <i className="fas fa-times"></i>
+                    </button>
+                    <a onClick={()=>{window.location.replace(`/mytoyota/${this.state.id}`)}}
+                    style={{cursor:'pointer'}}>
                         <img src={val.cfoto}/>
                         <a className="pricing_btn">
                             {val.cmodel}
@@ -616,6 +678,39 @@ class Profil extends Component{
                 <button
                 type="button" onClick={this.tambahMobil} className="btn btn-success text-white">
                     <i className="fas fa-plus-square"></i>&nbsp;&nbsp;Tambah
+                </button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        {/* modal delete mobil */}
+        <div style={{marginTop:'150px'}} className="modal fade" id="delMobilModal" tabindex="-1" role="dialog" 
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+            <div className="modal-content">
+            <div className="modal-header bg-warning">
+                <h5 className="text-white modal-title" id="exampleModalLabel">
+                    Hapus Mobil
+                </h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" className='text-white'>&times;</span>
+                </button>
+            </div>
+            <div className="modal-body">
+                <h4>
+                    <img width='50px' src={this.state.hapusFoto}/>
+                    &nbsp;Yakin ingin menghapus <b>{this.state.hapusModel} {this.state.hapusPlat.toUpperCase()}</b> ?
+                </h4>
+            </div>
+            <div className="modal-footer">
+                <button type="button" className="btn btn-danger" data-dismiss="modal">
+                    <i className="fas fa-window-close"></i>&nbsp;&nbsp;Batal
+                </button>
+                <button
+                onClick={()=>{this.hapusMobil(this.state.hapusId)}}
+                type="button" className="btn btn-success text-white">
+                    <i className="fas fa-trash-alt"></i>&nbsp;&nbsp;Hapus
                 </button>
             </div>
             </div>

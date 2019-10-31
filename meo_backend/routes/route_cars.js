@@ -53,6 +53,24 @@ router.post('/car', (req, res)=>{
     })
 })
 
+// DELETE car by car id
+router.delete('/car/:cid', (req, res)=>{
+    var dbStat = 'delete from meo_cars where cid = ?'
+    db.query(dbStat, req.params.cid, (error, output) => {
+        if(error){
+            console.log(error)
+            res.send({
+                status: 'no'
+            })
+        } else {
+            console.log(output)
+            res.send({
+                status: 'ok'
+            })
+        }
+    })
+})
+
 // GET car by user id
 router.get('/car/:uid', (req, res) => {
     var dbStat = 'select * from meo_cars where uid = ? order by cid desc'

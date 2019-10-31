@@ -5,80 +5,90 @@ class Banner extends Component{
   render(){
     return(
         <div>
-
-        {/* banner */}
-        <section id='top' className="banner_part">
-            <div className="container">
-                <div className="row align-items-center justify-content-between">
-                    <div className="col-lg-5">
-                        <div className="banner_img d-none d-lg-block">
-                            <img src="/img/banner_img.png" alt=""/>
-                        </div>
-                    </div>
-                    <div className="col-lg-6">
-                        <div className="banner_text">
-                            <div className="banner_text_iner">
-                                <h1>Teknologi untuk Mobil Kesayangan</h1>
-                                <p>
-                                    Manfaatkan teknologi <b><i>IoT</i></b> & <b><i>Machine Learning</i></b> untuk memantau kondisi mobil sekaligus memprediksi harga jual kembalinya.
-                                </p>
-                                <a href="#meoiot" className="btn_2">Selengkapnya</a>
+        
+        {
+            this.props.user
+            ?
+            <></>
+            :
+            (   
+                <>
+                {/* banner */}
+                <section id='top' className="banner_part">
+                    <div className="container">
+                        <div className="row align-items-center justify-content-between">
+                            <div className="col-lg-5">
+                                <div className="banner_img d-none d-lg-block">
+                                    <img src="/img/banner_img.png" alt=""/>
+                                </div>
+                            </div>
+                            <div className="col-lg-6">
+                                <div className="banner_text">
+                                    <div className="banner_text_iner">
+                                        <h1>Teknologi untuk Mobil Kesayangan</h1>
+                                        <p>
+                                            Manfaatkan teknologi <b><i>IoT</i></b> & <b><i>Machine Learning</i></b> untuk memantau kondisi mobil sekaligus memprediksi harga jual kembalinya.
+                                        </p>
+                                        <a href="#meoiot" className="btn_2">Selengkapnya</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <img src="/img/animate_icon/Ellipse_7.png" alt="" className="feature_icon_1 custom-animation1"/>
-            <img src="/img/animate_icon/Ellipse_8.png" alt="" className="feature_icon_2 custom-animation2"/>
-            <img src="/img/animate_icon/Ellipse_1.png" alt="" className="feature_icon_3 custom-animation3"/>
-            <img src="/img/animate_icon/Ellipse_2.png" alt="" className="feature_icon_4 custom-animation4"/>
-            <img src="/img/animate_icon/Ellipse_3.png" alt="" className="feature_icon_5 custom-animation5"/>
-            <img src="/img/animate_icon/Ellipse_4.png" alt="" className="feature_icon_6 custom-animation6"/>
-        </section>
+                    <img src="/img/animate_icon/Ellipse_7.png" alt="" className="feature_icon_1 custom-animation1"/>
+                    <img src="/img/animate_icon/Ellipse_8.png" alt="" className="feature_icon_2 custom-animation2"/>
+                    <img src="/img/animate_icon/Ellipse_1.png" alt="" className="feature_icon_3 custom-animation3"/>
+                    <img src="/img/animate_icon/Ellipse_2.png" alt="" className="feature_icon_4 custom-animation4"/>
+                    <img src="/img/animate_icon/Ellipse_3.png" alt="" className="feature_icon_5 custom-animation5"/>
+                    <img src="/img/animate_icon/Ellipse_4.png" alt="" className="feature_icon_6 custom-animation6"/>
+                </section>
 
-        {/* fitur 1 */}
-        <section id="meoiot" className="about_us section_padding">
-            <div className="container my-5">
-                <div className="row align-items-center justify-content-between">
-                    <div className="col-md-6 col-lg-5">
-                        <div className="about_us_text">
-                            <img src="/img/icon/Icon_1.png" alt=""/>
-                            <h2>Meo IoT</h2>
-                            <p>Manfaatkan <b><i>Meo IoT</i></b> untuk memantau kondisi terkini mobil Anda via internet. Parameter yang dapat Anda monitor antara lain: suhu, posisi, kelembaban, tekanan udara, posisi dan sensor lainnya yang dibenamkan dalam mobil.</p>
-                            <a href="#meoml" className="btn_2">Selengkapnya</a>
+                {/* fitur 1 */}
+                <section id="meoiot" className="about_us section_padding">
+                    <div className="container my-5">
+                        <div className="row align-items-center justify-content-between">
+                            <div className="col-md-6 col-lg-5">
+                                <div className="about_us_text">
+                                    <img src="/img/icon/Icon_1.png" alt=""/>
+                                    <h2>Meo IoT</h2>
+                                    <p>Manfaatkan <b><i>Meo IoT</i></b> untuk memantau kondisi terkini mobil Anda via internet. Parameter yang dapat Anda monitor antara lain: suhu, posisi, kelembaban, tekanan udara, posisi dan sensor lainnya yang dibenamkan dalam mobil.</p>
+                                    <a href="#meoml" className="btn_2">Selengkapnya</a>
+                                </div>
+                            </div>
+                            <div className="col-md-6 col-lg-6">
+                                <div className="learning_img">
+                                    <img src="/img/about_img.png" alt=""/>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div className="col-md-6 col-lg-6">
-                        <div className="learning_img">
-                            <img src="/img/about_img.png" alt=""/>
+                    <img src="/img/animate_icon/Ellipse_4.png" alt="" className="feature_icon_1 custom-animation1"/>
+                </section>
+                
+                {/* fitur 2 */}
+                <section id="meoml" className="about_us right_time">
+                    <div className="container mt-5">
+                        <div className="row align-items-center justify-content-between">
+                            <div className="col-md-6 col-lg-6">
+                                <div className="learning_img">
+                                    <img src="/img/about_img_1.png" alt=""/>
+                                </div>
+                            </div>
+                            <div className="col-md-6 col-lg-5">
+                                <div className="about_us_text">
+                                    <img src="/img/icon/Icon_2.png" alt=""/>
+                                    <h2>Meo ML Price</h2>
+                                    <p>Prediksikan harga jual kembali mobil Anda berdasarkan model <b><i>Machine Learning</i></b> yang terukur, berdasarkan data harga di pasaran.</p>
+                                    <a href="#layanan" className="btn_2">Selengkapnya</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <img src="/img/animate_icon/Ellipse_4.png" alt="" className="feature_icon_1 custom-animation1"/>
-        </section>
-        
-        {/* fitur 2 */}
-        <section id="meoml" className="about_us right_time">
-            <div className="container mt-5">
-                <div className="row align-items-center justify-content-between">
-                    <div className="col-md-6 col-lg-6">
-                        <div className="learning_img">
-                            <img src="/img/about_img_1.png" alt=""/>
-                        </div>
-                    </div>
-                    <div className="col-md-6 col-lg-5">
-                        <div className="about_us_text">
-                            <img src="/img/icon/Icon_2.png" alt=""/>
-                            <h2>Meo ML Price</h2>
-                            <p>Prediksikan harga jual kembali mobil Anda berdasarkan model <b><i>Machine Learning</i></b> yang terukur, berdasarkan data harga di pasaran.</p>
-                            <a href="#layanan" className="btn_2">Selengkapnya</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <img src="/img/animate_icon/Ellipse_4.png" alt="" className="feature_icon_1 custom-animation1"/>
-        </section>
+                    <img src="/img/animate_icon/Ellipse_4.png" alt="" className="feature_icon_1 custom-animation1"/>
+                </section>
+                </>
+            )
+        }
 
         {/* layanan */}
         <section id="layanan" className="pricing_part section_padding home_page_pricing">

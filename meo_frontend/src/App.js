@@ -382,7 +382,8 @@ class App extends Component{
         </div>
         </div>
         <div>
-            <Route exact path="/" component={Banner}/>
+            {/* <Route exact path="/" component={Banner}/> */}
+            <Route exact path="/" render={(props) => <Banner {...props} user={this.state.user} host={this.state.host}/>}/>
             <Route path="/profil/:uid" render={(props) => <Profil {...props} user={this.state.user} host={this.state.host}/>}/>
             <Route path="/mytoyota/:uid" render={(props) => <ToyotaCar {...props} user={this.state.user} host={this.state.host}/>}/>
         </div>
