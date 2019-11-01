@@ -29,6 +29,9 @@ router.post('/car', (req, res)=>{
         cplat: req.body.cplat,
         cfoto: req.body.cfoto,
         cinfo: req.body.cinfo,
+        ckm: req.body.ckm,
+        cbbm: req.body.cbbm,
+        ctransmisi: req.body.ctransmisi,
     }
     db.query(dbStat, data, (error, output) => {
         if(error){
@@ -47,6 +50,9 @@ router.post('/car', (req, res)=>{
                 cplat: req.body.cplat,
                 cfoto: req.body.cfoto,
                 cinfo: req.body.cinfo,
+                ckm: req.body.ckm,
+                cbbm: req.body.cbbm,
+                ctransmisi: req.body.ctransmisi,
                 status: 'ok'
             })
         }

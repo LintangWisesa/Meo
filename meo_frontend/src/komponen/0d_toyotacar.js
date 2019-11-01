@@ -8,7 +8,7 @@ class ToyotaCar extends Component{
     constructor(props){
         super(props)
         this.state = {
-            tipe: '', model: [], modelPilih: '', fotoPilih: '', plat: '', seat: '', th: '', info: '',
+            tipe: '', model: [], modelPilih: '', fotoPilih: '', plat: '', seat: '', th: '', info: '', km: '', bbm: '', transmisi:'',
             foto: '', file: '',
             mymobil: [], jmlmobil: 0,
             hapusModel: '', hapusId: '', hapusPlat: '', hapusFoto: ''
@@ -59,6 +59,15 @@ class ToyotaCar extends Component{
     }
     thInput = (event) => {
         this.setState({th: event.target.value});
+    }
+    kmInput = (event) => {
+        this.setState({km: event.target.value});
+    }
+    bbmInput = (event) => {
+        this.setState({bbm: event.target.value});
+    }
+    transInput = (event) => {
+        this.setState({transmisi: event.target.value});
     }
     infoInput = (event) => {
         this.setState({info: event.target.value});
@@ -114,6 +123,9 @@ class ToyotaCar extends Component{
         var plat = this.state.plat ? this.state.plat : null
         var th = this.state.th ? this.state.th : null
         var info = this.state.info ? this.state.info : null
+        var km = this.state.km ? this.state.km : null 
+        var bbm = this.state.bbm ? this.state.bbm : null
+        var transmisi = this.state.transmisi ? this.state.transmisi : null
         var url = this.props.host
         axios.post(url + '/car', {
             uid: id,
@@ -124,6 +136,9 @@ class ToyotaCar extends Component{
             cplat: plat,
             cfoto: fotoPilih,
             cinfo: info,
+            ckm: km,
+            cbbm: bbm,
+            ctransmisi: transmisi
         }).then((x)=>{
             if(x.data.status == 'ok'){
                 toast.success(`🎉 Mobil sukses ditambahkan 👍`, {
@@ -238,34 +253,53 @@ class ToyotaCar extends Component{
                     </div>
                 </div>
                 <div className="col-sm-8">
-                    <div className='row'>
-                        <h4 className="ml-2 col-sm-3 alert alert-warning">
-                            <i style={{color:'orange'}} className="fas fa-car"></i>&nbsp;&nbsp;{val.ctipe}
-                        </h4>
-                        <h4 className="ml-2 col-sm-3 alert alert-warning">
-                            <i style={{color:'orange'}} className="fas fa-car-side"></i>&nbsp;&nbsp;{val.cmodel}
-                        </h4>
-                        <h4 className="ml-2 col-sm-2 alert alert-warning">
-                            <i style={{color:'orange'}} className="far fa-calendar"></i>&nbsp;&nbsp;{val.cth}
-                        </h4>
-                        {/* <h4 className="ml-2 col-sm-2 alert alert-warning">
-                            <i style={{color:'orange'}} className="fas fa-id-card"></i>&nbsp;&nbsp;{val.cplat.toUpperCase()}
-                        </h4> */}
-                        <h4 className="ml-2 col-sm-2 alert alert-warning">
-                            <i style={{color:'orange'}} className="fas fa-users"></i>&nbsp;&nbsp;{val.cseat} <small>orang</small>
-                        </h4>
-                    </div>
-                    <div className="row">
+                    <b className="alert alert-warning">
+                        <i style={{color:'orange'}} className="fas fa-car"></i>&nbsp;&nbsp;{val.ctipe}
+                    </b>
+                    {/* <b className="ml-2 alert alert-warning">
+                        <i style={{color:'orange'}} className="fas fa-car-side"></i>&nbsp;&nbsp;{val.cmodel}
+                    </b> */}
+                    <b className="ml-2 alert alert-warning">
+                        <i style={{color:'orange'}} className="fas fa-cog"></i>&nbsp;&nbsp;{val.ctransmisi}
+                    </b>
+                    <b className="ml-2 alert alert-warning">
+                        <i style={{color:'orange'}} className="far fa-calendar"></i>&nbsp;&nbsp;{val.cth}
+                    </b>
+                    <b className="ml-2 alert alert-warning">
+                        <i style={{color:'orange'}} className="fas fa-gas-pump"></i>&nbsp;&nbsp;{val.cbbm}
+                    </b>
+                    {/* <b className="ml-2 alert alert-warning">
+                        <i style={{color:'orange'}} className="fas fa-id-card"></i>&nbsp;&nbsp;{val.cplat.toUpperCase()}
+                    </b> */}
+                    <b className="ml-2 alert alert-warning">
+                        <i style={{color:'orange'}} className="fas fa-users"></i>&nbsp;&nbsp;{val.cseat} <small>orang</small>
+                    </b>
+                    <b className="ml-2 alert alert-warning">
+                        <i style={{color:'orange'}} className="fas fa-tachometer-alt"></i>&nbsp;&nbsp;{val.ckm} <small>km</small>
+                    </b>
+                    <div className="mt-4 row">
                         <h4 className="col-sm-12">
                             <i style={{color:'orange'}} className="fas fa-quote-right"></i>&nbsp;&nbsp;<i>{val.cinfo}</i>
                         </h4>
                     </div>
                     <hr className='my-3'></hr>
-                    <label className='btn btn-warning text-white' style={{cursor: 'pointer'}} for="upload-photo">
-                        <i className="fas fa-camera"></i>&nbsp;&nbsp;Upload Foto
-                    </label>
-                    <input onChange={this.postFoto}
-                    style={{opacity: 0, position: 'absolute', zIndex: -1}} type="file" name="photo" id="upload-photo" />
+                    <div className='row'>
+
+                        <label className='ml-3 btn btn-warning text-white' style={{cursor: 'pointer'}} for="upload-photo">
+                            <i className="fas fa-camera"></i>&nbsp;&nbsp;Upload
+                        </label>
+                        <input onChange={this.postFoto}
+                        style={{opacity: 0, position: 'absolute', zIndex: -1}} type="file" name="photo" id="upload-photo" />
+                        
+                        <button style={{height:'38px'}} className='ml-2 btn btn-info text-white'>
+                            <i className="fas fa-wifi"></i>&nbsp;&nbsp;Meo IoT
+                        </button>
+
+                        <button style={{height:'38px'}} className='ml-2 btn btn-info text-white'>
+                            <i className="fas fa-brain"></i>&nbsp;&nbsp;Meo ML Price
+                        </button>
+
+                    </div>
                 </div>
             </div>
             <hr className='my-5'></hr>
@@ -425,7 +459,8 @@ class ToyotaCar extends Component{
                         :
                         (
                             <div className="dropdown col-sm-6">
-                                <button className="disabled btn btn-secondary btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button className="disabled btn btn-secondary btn-block dropdown-toggle" type="button" 
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Pilih Model
                                 </button>
                             </div>
@@ -479,6 +514,51 @@ class ToyotaCar extends Component{
                     </div>
                 </div>
 
+                <div className="row">
+                    
+                    {/* km */}
+                    <div className="col-sm-4 input-group mb-3">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text" id="basic-addon1">
+                                <i className="fas fa-tachometer-alt"></i>
+                            </span>
+                        </div>
+                        <input 
+                        value={this.state.km} onChange={this.kmInput} 
+                        style={this.state.km ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                        type="number" className="form-control" placeholder="Jarak ditempuh (km)" 
+                        aria-label="Username" aria-describedby="basic-addon1"/>
+                    </div>
+
+                    {/* bahan bakar */}
+                    <div className="col-sm-4 input-group mb-3">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text" id="basic-addon1">
+                                <i className="fas fa-gas-pump"></i>
+                            </span>
+                        </div>
+                        <input 
+                        value={this.state.bbm} onChange={this.bbmInput} 
+                        style={this.state.bbm ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                        type="text" className="form-control" placeholder="Jenis bahan bakar ..." 
+                        aria-label="Username" aria-describedby="basic-addon1"/>
+                    </div>
+
+                    {/* transmisi */}
+                    <div className="col-sm-4 input-group mb-3">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text" id="basic-addon1">
+                                <i className="fas fa-cog"></i>
+                            </span>
+                        </div>
+                        <input 
+                        value={this.state.transmisi} onChange={this.transInput} 
+                        style={this.state.transmisi ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                        type="text" className="form-control" placeholder="Jenis transmisi ..." 
+                        aria-label="Username" aria-describedby="basic-addon1"/>
+                    </div>
+                </div>
+
                 {/* info */}
                 <div className="input-group">
                     <div className="input-group-prepend">
@@ -495,7 +575,7 @@ class ToyotaCar extends Component{
                 
             </div>
             <div className="modal-footer">
-                <button onClick={()=>{this.setState({tipe:'', model:[], modelPilih:'', fotoPilih:'', plat:'', seat:'', th:''})}}
+                <button onClick={()=>{this.setState({tipe:'', model:[], modelPilih:'', fotoPilih:'', plat:'', seat:'', th:'', km: '', transmisi: '', bbm: ''})}}
                 type="button" className="btn btn-danger" data-dismiss="modal">
                     <i className="fas fa-window-close"></i>&nbsp;&nbsp;Batal
                 </button>

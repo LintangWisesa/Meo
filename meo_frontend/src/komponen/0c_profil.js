@@ -8,7 +8,7 @@ class Profil extends Component{
     constructor(props){
         super(props)
         this.state = {
-            tipe: '', model: [], modelPilih: '', fotoPilih: '', plat: '', seat: '', th: '', info: '',
+            tipe: '', model: [], modelPilih: '', fotoPilih: '', plat: '', seat: '', th: '', info: '', km: '', bbm: '', transmisi:'',
             id: '', nama: '', email: '', password: '', telp: '', alamat: '', kota: '', 
             foto: '', file: '',
             mymobil: [], jmlmobil: 0,
@@ -79,6 +79,15 @@ class Profil extends Component{
     }
     thInput = (event) => {
         this.setState({th: event.target.value});
+    }
+    kmInput = (event) => {
+        this.setState({km: event.target.value});
+    }
+    bbmInput = (event) => {
+        this.setState({bbm: event.target.value});
+    }
+    transInput = (event) => {
+        this.setState({transmisi: event.target.value});
     }
     infoInput = (event) => {
         this.setState({info: event.target.value});
@@ -203,6 +212,9 @@ class Profil extends Component{
         var plat = this.state.plat ? this.state.plat : null
         var th = this.state.th ? this.state.th : null
         var info = this.state.info ? this.state.info : null
+        var km = this.state.km ? this.state.km : null 
+        var bbm = this.state.bbm ? this.state.bbm : null
+        var transmisi = this.state.transmisi ? this.state.transmisi : null
         var url = this.props.host
         axios.post(url + '/car', {
             uid: id,
@@ -213,6 +225,9 @@ class Profil extends Component{
             cplat: plat,
             cfoto: fotoPilih,
             cinfo: info,
+            ckm: km,
+            cbbm: bbm,
+            ctransmisi: transmisi
         }).then((x)=>{
             if(x.data.status == 'ok'){
                 toast.success(`🎉 Mobil sukses ditambahkan 👍`, {
@@ -658,6 +673,51 @@ class Profil extends Component{
                     </div>
                 </div>
 
+                <div className="row">
+                    
+                    {/* km */}
+                    <div className="col-sm-4 input-group mb-3">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text" id="basic-addon1">
+                                <i className="fas fa-tachometer-alt"></i>
+                            </span>
+                        </div>
+                        <input 
+                        value={this.state.km} onChange={this.kmInput} 
+                        style={this.state.km ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                        type="number" className="form-control" placeholder="Jarak ditempuh (km)" 
+                        aria-label="Username" aria-describedby="basic-addon1"/>
+                    </div>
+
+                    {/* bahan bakar */}
+                    <div className="col-sm-4 input-group mb-3">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text" id="basic-addon1">
+                                <i className="fas fa-gas-pump"></i>
+                            </span>
+                        </div>
+                        <input 
+                        value={this.state.bbm} onChange={this.bbmInput} 
+                        style={this.state.bbm ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                        type="text" className="form-control" placeholder="Jenis bahan bakar ..." 
+                        aria-label="Username" aria-describedby="basic-addon1"/>
+                    </div>
+
+                    {/* transmisi */}
+                    <div className="col-sm-4 input-group mb-3">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text" id="basic-addon1">
+                                <i className="fas fa-cog"></i>
+                            </span>
+                        </div>
+                        <input 
+                        value={this.state.transmisi} onChange={this.transInput} 
+                        style={this.state.transmisi ? {fontWeight:'bold'} : {fontStyle:'italic'}}
+                        type="text" className="form-control" placeholder="Jenis transmisi ..." 
+                        aria-label="Username" aria-describedby="basic-addon1"/>
+                    </div>
+                </div>
+
                 {/* info */}
                 <div className="input-group">
                     <div className="input-group-prepend">
@@ -674,7 +734,7 @@ class Profil extends Component{
                 
             </div>
             <div className="modal-footer">
-                <button onClick={()=>{this.setState({tipe:'', model:[], modelPilih:'', fotoPilih:'', plat:'', seat:'', th:''})}}
+                <button onClick={()=>{this.setState({tipe:'', model:[], modelPilih:'', fotoPilih:'', plat:'', seat:'', th:'', km: '', transmisi: '', bbm: ''})}}
                 type="button" className="btn btn-danger" data-dismiss="modal">
                     <i className="fas fa-window-close"></i>&nbsp;&nbsp;Batal
                 </button>
