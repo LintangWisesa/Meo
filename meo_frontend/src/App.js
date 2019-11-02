@@ -404,7 +404,7 @@ class App extends Component{
             <Route path="/profil/:uid" render={(props) => <Profil {...props} user={this.state.user} host={this.state.host}/>}/>
             <Route path="/mytoyota/:uid" render={(props) => <ToyotaCar {...props} user={this.state.user} host={this.state.host}/>}/>
             <Route path="/meoIoT/:uid" render={(props) => <MeoIot {...props} user={this.state.user} host={this.state.host}/>}/>
-            <Route path="/meoML/:uid" render={(props) => <MeoML {...props} user={this.state.user} host={this.state.host}/>}/>
+            <Route path="/meoML/:uid" render={(props) => <MeoML {...props} user={this.state.user} host={this.state.host} hostML={this.state.hostML}/>}/>
             
         </div>
         
