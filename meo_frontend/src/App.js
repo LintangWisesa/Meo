@@ -9,6 +9,8 @@ import Footer from './komponen/0b_footer'
 import Banner from './komponen/0a_banner'
 import Profil from './komponen/0c_profil'
 import ToyotaCar from './komponen/0d_toyotacar'
+import MeoIot from './komponen/0c_meoIoT'
+import MeoML from './komponen/0c_meoML'
 
 class App extends Component{
 
@@ -39,19 +41,19 @@ class App extends Component{
             upassword: this.state.password
         }).then((x)=>{
             if (x.data.status == 'ok'){
+                toast.success('🎉 Selamat, akun Anda sukses terdaftar! Cek email & silakan login!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
                 // this.login()
-                axios.post(`${this.state.host}/email`, {
+                axios.post(`${this.state.host}/emailsignup`, {
                     nama: this.state.nama,
                     email: this.state.email,
                 }).then((x)=>{
-                    toast.success('🎉 Selamat, akun Anda sukses terdaftar! Cek email & silakan login!', {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                    });
                     window.location.replace(`/`)
                 }).catch((x)=>{
                     toast.error(`Gagal signup 😭 Silakan coba lagi 🙏`, {
@@ -182,10 +184,10 @@ class App extends Component{
                                             Layanan
                                         </a>
                                         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a className="dropdown-item" href="/">
+                                            <a className="dropdown-item" href={`/meoIoT/${this.state.user.uid}`}>
                                                 Meo IoT
                                             </a>
-                                            <a className="dropdown-item" href="/">
+                                            <a className="dropdown-item" href={`/meoML/${this.state.user.uid}`}>
                                                 Meo ML Price
                                             </a>
                                         </div>
@@ -401,6 +403,9 @@ class App extends Component{
             <Route exact path="/" render={(props) => <Banner {...props} user={this.state.user} host={this.state.host}/>}/>
             <Route path="/profil/:uid" render={(props) => <Profil {...props} user={this.state.user} host={this.state.host}/>}/>
             <Route path="/mytoyota/:uid" render={(props) => <ToyotaCar {...props} user={this.state.user} host={this.state.host}/>}/>
+            <Route path="/meoIoT/:uid" render={(props) => <MeoIot {...props} user={this.state.user} host={this.state.host}/>}/>
+            <Route path="/meoML/:uid" render={(props) => <MeoML {...props} user={this.state.user} host={this.state.host}/>}/>
+            
         </div>
         
         <Footer/>

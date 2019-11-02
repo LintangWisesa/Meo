@@ -25,9 +25,8 @@ app.get('/email', (req, res)=>{
     res.send('<h1>Email ✉ meo.toyota.id@gmail.com sudah aktif!</h1>')
 })
 
-// route untuk kirim email
-app.post('/email', (req, res)=>{
-    
+// route untuk kirim email sukses signup
+app.post('/emailsignup', (req, res)=>{
     // deklarasi email yang akan dikirim
     var emailku = {
         from: 'MEO 🚖 Innovation <meo.toyota.id@gmail.com>',
@@ -39,6 +38,56 @@ app.post('/email', (req, res)=>{
             <p>Selamat, Anda telah sukses terdaftar sebagai anggota komunitas <b>Meo Innovation</b>. Manfaatkan teknologi IoT (<i>Internet of Things</i>) untuk memantau kondisi terkini mobil Toyota kesayangan Anda, sekaligus model ML (<i>Machine Learning</i>) untuk memprediksi harga jual kembalinya. Selanjutnya silakan login di <b>Meo</b>, lengkapi profil diri & Toyota kesayangan Anda di platform kami. Informasi selengkapnya silakan hubungi Customer Care kami secara online maupun offline di dealer-dealer Toyota terdekat di kota Anda.</p>
             <br/>
             <button><h3>▶ Login Meo</h3></button>
+            <br/>
+            <hr>
+            <p><b>MEO 🚖 Innovation</b></p>
+            <p>Email: <i>meo.toyota.id@gmail.com</i></p>
+            <p>Home Page: <a target='_blank' href='https://lintangwisesa.github.io/Meo/'><i>MEO Innovation</i></a></p>
+            <p>Github Repo: <a target='_blank' href='https://github.com/LintangWisesa/Meo'><i>MEO Repository</i></a></p>
+            <p>Phone: +62 8886719327</p>
+        `,
+        // attachments:[{
+        //         filename: 'barca.png', 
+        //         path:'https://vignette.wikia.nocookie.net/logopedia/images/0/0e/Barcelona.png'
+        //     },
+        //     {
+        //         filename: 'pesan.txt',
+        //         content: 'Halo, apa kabar? Maaf nyepam!'
+        //     }
+        // ]
+    }
+
+    sender.sendMail(emailku, (error)=>{
+        if(error){
+            console.log(error)
+            res.send(error)
+        } else {
+            console.log('Email sukses terkirim!')
+            res.send({
+                status: 'Email terkirim'
+            })
+        }
+    })
+})
+
+// route email sukses tambah mobil
+app.post('/emailaddcar', (req, res)=>{
+    // deklarasi email yang akan dikirim
+    var emailku = {
+        from: 'MEO 🚖 Innovation <meo.toyota.id@gmail.com>',
+        to: req.body.email,
+        subject: `🚖 Mobil Anda terdaftar, ${req.body.nama} 🤗`,
+        // text: 'Halo dunia!'
+        html: `
+            <h1>Mobil Anda sukses terdaftar! 🤗</h1>
+            <p>Selamat, Anda telah sukses mendaftarkan mobil Anda di <b>Meo Innovation</b>. Manfaatkan teknologi IoT (<i>Internet of Things</i>) untuk memantau kondisi terkini mobil Toyota kesayangan Anda, sekaligus model ML (<i>Machine Learning</i>) untuk memprediksi harga jual kembalinya. Selanjutnya silakan login di <b>Meo</b>, lengkapi profil diri & Toyota kesayangan Anda di platform kami. Informasi selengkapnya silakan hubungi Customer Care kami secara online maupun offline di dealer-dealer Toyota terdekat di kota Anda.</p>
+            <br/>
+            <p>Mobil ditambahkan:</p>
+            <h3>🚕 Toyota ${req.body.cmodel} (${req.body.cth})</h3>
+            <p>📝 ${req.body.cplat} ⛽ ${req.body.cbbm} ⚙ ${req.body.ctransmisi}</p>
+            <p>✅ ${req.body.cinfo}</p>
+            <br/>
+            <button><h3>▶ Go to Meo</h3></button>
             <br/>
             <hr>
             <p><b>MEO 🚖 Innovation</b></p>

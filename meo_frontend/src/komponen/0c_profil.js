@@ -238,7 +238,27 @@ class Profil extends Component{
                     pauseOnHover: true,
                     draggable: true,
                 });
-                window.location.replace(`/profil/${this.state.id}`)
+                axios.post(url + '/emailaddcar', {
+                    nama: this.props.user.unama,
+                    email: this.props.user.uemail,
+                    cmodel: modelPilih,
+                    cth: th,
+                    cplat: plat,
+                    cinfo: info,
+                    cbbm: bbm,
+                    ctransmisi: transmisi
+                }).then((x)=>{
+                    window.location.replace(`/profil/${this.state.id}`)
+                }).catch((x)=>{
+                    toast.error(`😭 Maaf, mobil gagal ditambahkan. Coba lagi nanti 👍`, {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                    });
+                })
             } else {
                 toast.error(`😭 Maaf, profil gagal terupdate. Coba lagi nanti 👍`, {
                     position: "top-right",

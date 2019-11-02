@@ -3,12 +3,13 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-class ToyotaCar extends Component{
+class MeoIot extends Component{
   
     constructor(props){
         super(props)
         this.state = {
             tipe: '', model: [], modelPilih: '', fotoPilih: '', plat: '', seat: '', th: '', info: '', km: '', bbm: '', transmisi:'',
+            id: '', nama: '', email: '', password: '', telp: '', alamat: '', kota: '', 
             foto: '', file: '',
             mymobil: [], jmlmobil: 0,
             hapusModel: '', hapusId: '', hapusPlat: '', hapusFoto: ''
@@ -34,21 +35,32 @@ class ToyotaCar extends Component{
                 this.setState({
                     mymobil: x.data,
                     jmlmobil: x.data.length
-                })
-                // toast.success(`🎉 Selamat datang, ${this.state.nama} 🤗`, {
-                //     position: "top-right",
-                //     autoClose: 3000,
-                //     hideProgressBar: false,
-                //     closeOnClick: true,
-                //     pauseOnHover: true,
-                //     draggable: true,
-                // });  
+                }) 
             }).catch((x)=>{
                 console.log('no')
             })
         }).catch((x)=>{
             console.log('no')
         })
+    }
+
+    namaInput = (event) => {
+        this.setState({nama: event.target.value});
+    }
+    emailInput = (event) => {
+        this.setState({email: event.target.value});
+    }
+    passInput = (event) => {
+        this.setState({password: event.target.value});
+    }
+    telpInput = (event) => {
+        this.setState({telp: event.target.value});
+    }
+    alamatInput = (event) => {
+        this.setState({alamat: event.target.value});
+    }
+    kotaInput = (event) => {
+        this.setState({kota: event.target.value});
     }
 
     platInput = (event) => {
@@ -75,7 +87,7 @@ class ToyotaCar extends Component{
 
     postFoto = (e) => {
         this.setState({
-            foto: e.target.files[0].name,
+            foto: `${this.props.host}/profile/loading.png`,
             file: e.target.files[0]
         }, ()=>{
             const formData = new FormData();
@@ -89,17 +101,30 @@ class ToyotaCar extends Component{
             var url = this.props.host + '/profile'
             axios.post(url, formData, config)
             .then((response) => {
-                toast.success(`Foto ${response.data.fotoTerupload} sukses terupload 🤩 Klik Update profil untuk mengganti foto.`, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                });
-                // console.log(response.data)
-                this.setState({
-                    foto: response.data.fotoTerupload
+                var url = this.props.host + '/profile'
+                axios.post(url, formData, config)
+                .then((response) => {
+                    toast.success(`Foto profil sukses terupload 🤩 Klik Update profil untuk mengganti foto.`, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                    });
+                    // console.log(response.data)
+                    this.setState({
+                        foto: response.data.fotoTerupload
+                    })
+                }).catch((error)=>{
+                    toast.error(`Foto gagal diperbarui 😭 silakan coba lagi 🙏`, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                    }); 
                 })
             }).catch((error) => {
                 toast.error(`Foto gagal diperbarui 😭 silakan coba lagi 🙏`, {
@@ -110,6 +135,62 @@ class ToyotaCar extends Component{
                     pauseOnHover: true,
                     draggable: true,
                 });
+            });
+        })
+    }
+
+    updateProfil = () => {
+        var id = this.state.id ? this.state.id : null
+        var nama = this.state.nama ? this.state.nama : null
+        var email = this.state.email ? this.state.email : null
+        var password = this.state.password ? this.state.password : null
+        var foto = this.state.foto ? this.state.foto : null
+        var telp = this.state.telp ? this.state.telp : null
+        var alamat = this.state.alamat ? this.state.alamat : null
+        var kota = this.state.kota ? this.state.kota : null 
+        var url = this.props.host
+        axios.put(url + '/update', {
+            "unama": nama,
+            "uemail": email,
+            "upassword": password,
+            "ufoto": foto,
+            "ualamat": alamat,
+            "ukota": kota,
+            "utelp": telp,
+            "uid": id
+        }).then((x)=>{
+            if(x.data.statusUpdate == 'ok'){
+                this.setState({
+                    nama: nama, email: email, password: password, foto: foto, 
+                    telp: telp, alamat: alamat, kota: kota
+                })
+                toast.success(`🎉 Profil sukses terupdate 👍`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+                window.location.replace(`/profil/${this.state.id}`)
+            } else {
+                toast.error(`😭 Maaf, profil gagal terupdate. Coba lagi nanti 👍`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            }
+        }).catch((x)=>{
+            toast.error(`😭 Maaf, profil gagal terupdate. Coba lagi nanti 👍`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
             });
         })
     }
@@ -159,7 +240,7 @@ class ToyotaCar extends Component{
                     cbbm: bbm,
                     ctransmisi: transmisi
                 }).then((x)=>{
-                    window.location.replace(`/mytoyota/${this.state.id}`)
+                    window.location.replace(`/profil/${this.state.id}`)
                 }).catch((x)=>{
                     toast.error(`😭 Maaf, mobil gagal ditambahkan. Coba lagi nanti 👍`, {
                         position: "top-right",
@@ -171,7 +252,7 @@ class ToyotaCar extends Component{
                     });
                 })
             } else {
-                toast.error(`😭 Maaf, mobil gagal ditambahkan. Coba lagi nanti 👍`, {
+                toast.error(`😭 Maaf, profil gagal terupdate. Coba lagi nanti 👍`, {
                     position: "top-right",
                     autoClose: 3000,
                     hideProgressBar: false,
@@ -181,7 +262,7 @@ class ToyotaCar extends Component{
                 });
             }
         }).catch((x)=>{
-            toast.error(`😭 Maaf, mobil gagal ditambahkan. Coba lagi nanti 👍`, {
+            toast.error(`😭 Maaf, profil gagal terupdate. Coba lagi nanti 👍`, {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -209,7 +290,7 @@ class ToyotaCar extends Component{
                     pauseOnHover: true,
                     draggable: true,
                 });
-                window.location.replace(`/mytoyota/${this.state.id}`)
+                window.location.replace(`/profil/${this.state.id}`)
             } else {
                 toast.error(`😭 Maaf, mobil gagal dihapus. Coba lagi nanti 👍`, {
                     position: "top-right",
@@ -250,82 +331,27 @@ class ToyotaCar extends Component{
 
     var myMobil = this.state.mymobil.map((val, i)=>{
         return (
-            <>
-            <div key={i} className='row'>
-                <div className="col-lg-2 col-sm-4">
-                    <div className="single_pricing_part">
-                        <button 
+            <div key={i} className="col-lg-2 col-sm-4">
+                <div className="single_pricing_part">
+                    <button 
                         onClick={()=>{this.pilihHapus(val.cid, val.cmodel, val.cplat, val.cfoto)}}
                         data-toggle="modal" data-target="#delMobilModal"
                         style={{position:'absolute', zIndex:99, marginLeft:'-35px', marginTop:'-34px'}} 
                         className='btn btn-danger btn-sm'>
                             <i className="fas fa-times"></i>
-                        </button>
-                        <a style={{cursor:'pointer'}}>
-                            <img src={val.cfoto}/>
-                            <a className="pricing_btn">
-                                {val.cmodel}
-                            </a>
-                            <p className="pricing_btn">
-                                {val.cplat}
-                            </p>
+                    </button>
+                    <a onClick={()=>{window.location.replace(`/mytoyota/${this.state.id}`)}}
+                    style={{cursor:'pointer'}}>
+                        <img src={val.cfoto}/>
+                        <a className="pricing_btn">
+                            {val.cmodel}
                         </a>
-                    </div>
-                </div>
-                <div className="col-sm-8">
-                    <b className="alert alert-warning">
-                        <i style={{color:'orange'}} className="fas fa-car"></i>&nbsp;&nbsp;{val.ctipe}
-                    </b>
-                    {/* <b className="ml-2 alert alert-warning">
-                        <i style={{color:'orange'}} className="fas fa-car-side"></i>&nbsp;&nbsp;{val.cmodel}
-                    </b> */}
-                    <b className="ml-2 alert alert-warning">
-                        <i style={{color:'orange'}} className="fas fa-cog"></i>&nbsp;&nbsp;{val.ctransmisi}
-                    </b>
-                    <b className="ml-2 alert alert-warning">
-                        <i style={{color:'orange'}} className="far fa-calendar"></i>&nbsp;&nbsp;{val.cth}
-                    </b>
-                    <b className="ml-2 alert alert-warning">
-                        <i style={{color:'orange'}} className="fas fa-gas-pump"></i>&nbsp;&nbsp;{val.cbbm}
-                    </b>
-                    {/* <b className="ml-2 alert alert-warning">
-                        <i style={{color:'orange'}} className="fas fa-id-card"></i>&nbsp;&nbsp;{val.cplat.toUpperCase()}
-                    </b> */}
-                    <b className="ml-2 alert alert-warning">
-                        <i style={{color:'orange'}} className="fas fa-users"></i>&nbsp;&nbsp;{val.cseat} <small>orang</small>
-                    </b>
-                    <b className="ml-2 alert alert-warning">
-                        <i style={{color:'orange'}} className="fas fa-tachometer-alt"></i>&nbsp;&nbsp;{val.ckm} <small>km</small>
-                    </b>
-                    <div className="mt-4 row">
-                        <h4 className="col-sm-12">
-                            <i style={{color:'orange'}} className="fas fa-quote-right"></i>&nbsp;&nbsp;<i>{val.cinfo}</i>
-                        </h4>
-                    </div>
-                    <hr className='my-3'></hr>
-                    <div className='row'>
-
-                        <label className='ml-3 btn btn-warning text-white' style={{cursor: 'pointer'}} for="upload-photo">
-                            <i className="fas fa-camera"></i>&nbsp;&nbsp;Upload
-                        </label>
-                        <input onChange={this.postFoto}
-                        style={{opacity: 0, position: 'absolute', zIndex: -1}} type="file" name="photo" id="upload-photo" />
-                        
-                        <button onClick={()=>{window.location.replace(`/meoIoT/${this.props.user.uid}`)}}
-                        style={{height:'38px'}} className='ml-2 btn btn-info text-white'>
-                            <i className="fas fa-wifi"></i>&nbsp;&nbsp;Meo IoT
-                        </button>
-
-                        <button onClick={()=>{window.location.replace(`/meoML/${this.props.user.uid}`)}} 
-                        style={{height:'38px'}} className='ml-2 btn btn-info text-white'>
-                            <i className="fas fa-brain"></i>&nbsp;&nbsp;Meo ML Price
-                        </button>
-
-                    </div>
+                        <p className="pricing_btn">
+                            {val.cplat}
+                        </p>
+                    </a>
                 </div>
             </div>
-            <hr className='my-5'></hr>
-            </>
         )
     })
 
@@ -337,16 +363,15 @@ class ToyotaCar extends Component{
         {/* layanan */}
         <section id="layanan" className="pricing_part section_padding home_page_pricing">
             <div className="container">
-                
                 <div className="mt-5 section_tittle">
-                    <h2>Toyota Saya</h2>
+                    <h2><i className="fas fa-wifi"></i>&nbsp;&nbsp;Meo IoT</h2>
+                    <p><b>Monitor kondisi Toyota kesayangan Anda</b></p>
                     <p>Jumlah Toyota Terdaftar: <b>{this.state.jmlmobil} mobil</b></p>
                 </div>
-                <hr className='my-5'></hr>
-
-                {myMobil ? myMobil : <></>}
-
                 <div className="row">
+                    
+                    {myMobil ? myMobil : <></>}
+
                     <div className="col-lg-2 col-sm-4">
                         <div className="single_pricing_part">
                             <a style={{cursor:'pointer'}} data-toggle="modal" data-target="#addMobilModal">
@@ -359,13 +384,17 @@ class ToyotaCar extends Component{
                             </a>
                         </div>
                     </div>
+
                 </div>
+
+                <hr className='my-5'/>
 
             </div>
             <img src="/img/animate_icon/Ellipse_2.png" alt="" className="feature_icon_2 custom-animation2"/>
 
         </section>
-        
+
+
         {/* modal add mobil */}
         <div style={{marginTop:'150px'}} className="modal fade" id="addMobilModal" tabindex="-1" role="dialog" 
         aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -481,8 +510,7 @@ class ToyotaCar extends Component{
                         :
                         (
                             <div className="dropdown col-sm-6">
-                                <button className="disabled btn btn-secondary btn-block dropdown-toggle" type="button" 
-                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button className="disabled btn btn-secondary btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Pilih Model
                                 </button>
                             </div>
@@ -634,8 +662,8 @@ class ToyotaCar extends Component{
                     <i className="fas fa-window-close"></i>&nbsp;&nbsp;Batal
                 </button>
                 <button
-                type="button" onClick={()=>{this.hapusMobil(this.state.hapusId)}} 
-                className="btn btn-success text-white">
+                onClick={()=>{this.hapusMobil(this.state.hapusId)}}
+                type="button" className="btn btn-success text-white">
                     <i className="fas fa-trash-alt"></i>&nbsp;&nbsp;Hapus
                 </button>
             </div>
@@ -649,4 +677,4 @@ class ToyotaCar extends Component{
   }
 }
 
-export default ToyotaCar
+export default MeoIot
