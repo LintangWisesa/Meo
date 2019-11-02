@@ -383,7 +383,7 @@ class MeoIot extends Component{
                     <div className="col-lg-2 col-sm-4">
                         <div className="single_pricing_part">
                             <a style={{cursor:'pointer'}}>
-                                <p>{this.state.iotlatest.isuhu}<span style={{fontSize:'30px'}}>°C</span></p>
+                                <p>{parseInt(this.state.iotlatest.isuhu)}<span style={{fontSize:'30px'}}>°C</span></p>
                                 <p className="mt-3">
                                     <a className="pricing_btn">
                                        Suhu ruang
@@ -397,7 +397,7 @@ class MeoIot extends Component{
                     <div className="col-lg-2 col-sm-4">
                         <div className="single_pricing_part">
                             <a style={{cursor:'pointer'}}>
-                                <p>{this.state.iotlatest.ilembab}<span style={{fontSize:'30px'}}>%</span></p>
+                                <p>{parseInt(this.state.iotlatest.ilembab)}<span style={{fontSize:'30px'}}>%</span></p>
                                 <p className="mt-3">
                                     <a className="pricing_btn">
                                        Kelembaban Udara
@@ -411,7 +411,7 @@ class MeoIot extends Component{
                     <div className="col-lg-2 col-sm-4">
                         <div className="single_pricing_part">
                             <a style={{cursor:'pointer'}}>
-                                <p>{this.state.iotlatest.ipress}<span style={{fontSize:'30px', textTransform:'lowercase'}}>kPa</span></p>
+                                <p>{parseInt(this.state.iotlatest.ipress)}<span style={{fontSize:'30px', textTransform:'lowercase'}}>kPa</span></p>
                                 <p className="mt-3">
                                     <a className="pricing_btn">
                                        Tekanan Udara
@@ -425,7 +425,7 @@ class MeoIot extends Component{
                     <div className="col-lg-2 col-sm-4">
                         <div className="single_pricing_part">
                             <a style={{cursor:'pointer'}}>
-                                <p>{this.state.iotlatest.ilux}<span style={{fontSize:'30px', textTransform:'lowercase'}}>lux</span></p>
+                                <p>{parseInt(this.state.iotlatest.ilux)}<span style={{fontSize:'30px', textTransform:'lowercase'}}>lux</span></p>
                                 <p className="mt-3">
                                     <a className="pricing_btn">
                                        Intensitas Cahaya
