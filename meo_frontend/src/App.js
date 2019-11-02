@@ -39,15 +39,30 @@ class App extends Component{
             upassword: this.state.password
         }).then((x)=>{
             if (x.data.status == 'ok'){
-                toast.success('🎉 Selamat, akun Anda sukses terdaftar!', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                });
-                this.login()
+                // this.login()
+                axios.post(`${this.state.host}/email`, {
+                    nama: this.state.nama,
+                    email: this.state.email,
+                }).then((x)=>{
+                    toast.success('🎉 Selamat, akun Anda sukses terdaftar! Cek email & silakan login!', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                    });
+                    window.location.replace(`/`)
+                }).catch((x)=>{
+                    toast.error(`Gagal signup 😭 Silakan coba lagi 🙏`, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                    });
+                })
             } else {
                 toast.error(`Gagal signup 😭 Silakan coba lagi 🙏`, {
                     position: "top-right",
