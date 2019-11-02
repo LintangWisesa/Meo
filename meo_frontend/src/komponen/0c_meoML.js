@@ -25,7 +25,7 @@ class MeoML extends Component{
             mymobil: [], jmlmobil: 0,
             hapusModel: '', hapusId: '', hapusPlat: '', hapusFoto: '',
             bbmpilih: '', transmisipilih: '',
-            hasilPrediksi: '', hasilPrediksiMyCar: ''
+            hasilPrediksi: '', hasilPrediksiMyCar: '',
         }
     }
 
@@ -152,59 +152,62 @@ class MeoML extends Component{
         })
     }
 
-    // prediksi my cars / toyota saya
+    // prediksi my cars (toyota saya)
     prediksiMobil = (val) => {
         this.setState({
             hasilPrediksi: '', hasilPrediksiMyCar: ''
         })
-        alert(val.cplat + val.cmodel + val.ctipe + val.cth + val.cbbm + val.cseat + val.ckm + val.cinfo)
-        // var modelPilih = this.state.modelPilih ? this.state.modelPilih : 'Avanza'
-        // var foto = this.state.fotoPilih ? this.state.fotoPilih : '/img/toyota/avanza.png'
-        // var km = this.state.km ? this.state.km : 0 
-        // var bbm = this.state.bbmpilih ? this.state.bbmpilih : 'bensin'
-        // var transmisi = this.state.transmisipilih ? this.state.transmisipilih : 'manual'
-        // var th = this.state.th ? this.state.th : 2019
-        // var url = this.props.hostML
-        // axios.post(url + '/prediksi', {
-        //     km: km,
-        //     tahun: th,
-        //     nama: modelPilih,
-        //     bbm: bbm,
-        //     transmisi: transmisi,
-        //     foto: foto
-        // }).then((x)=>{
-        //     if(x.data.response == 'ok'){
-        //         this.setState({
-        //             hasilPrediksi: x.data
-        //         })
-        //         toast.success(`🎉 Prediksi sukses dilakukan 👍`, {
-        //             position: "top-right",
-        //             autoClose: 3000,
-        //             hideProgressBar: false,
-        //             closeOnClick: true,
-        //             pauseOnHover: true,
-        //             draggable: true,
-        //         });
-        //     } else {
-        //         toast.error(`😭 Maaf, gagal memprediksi. Coba lagi nanti 👍`, {
-        //             position: "top-right",
-        //             autoClose: 3000,
-        //             hideProgressBar: false,
-        //             closeOnClick: true,
-        //             pauseOnHover: true,
-        //             draggable: true,
-        //         });
-        //     }
-        // }).catch((x)=>{
-        //     toast.error(`😭 Maaf, gagal memprediksi. Coba lagi nanti 👍`, {
-        //         position: "top-right",
-        //         autoClose: 3000,
-        //         hideProgressBar: false,
-        //         closeOnClick: true,
-        //         pauseOnHover: true,
-        //         draggable: true,
-        //     });
-        // })
+        // alert(val.cplat + val.cfoto + val.cmodel + val.ctipe + val.cth + val.cbbm + val.cseat + val.ckm + val.cinfo)
+        var modelPilih = val.cmodel
+        var plat = val.cplat
+        var seat = val.cseat
+        var info = val.cinfo
+        var foto = val.cfoto
+        var km = val.ckm
+        var bbm = val.cbbm
+        var transmisi = val.ctransmisi
+        var th = val.cth
+        var url = this.props.hostML
+        axios.post(url + '/prediksi', {
+            km: km,
+            tahun: th,
+            nama: modelPilih,
+            bbm: bbm,
+            transmisi: transmisi,
+            foto: foto
+        }).then((x)=>{
+            if(x.data.response == 'ok'){
+                this.setState({
+                    hasilPrediksiMyCar: x.data
+                })
+                toast.success(`🎉 Prediksi sukses dilakukan 👍`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            } else {
+                toast.error(`😭 Maaf, gagal memprediksi. Coba lagi nanti 👍`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            }
+        }).catch((x)=>{
+            toast.error(`😭 Maaf, gagal memprediksi. Coba lagi nanti 👍`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+        })
     }
 
     render(){
@@ -302,7 +305,7 @@ class MeoML extends Component{
             <div className="col-lg-2 col-sm-4">
                 <div className="single_pricing_part">
                     <button 
-                    onClick={()=>{this.setState({hasilPrediksi: ''})}}
+                    onClick={()=>{this.setState({hasilPrediksi: '', hasilPrediksiMyCar: ''})}}
                     style={{position:'absolute', zIndex:99, marginLeft:'-35px', marginTop:'-34px'}} 
                     className='btn btn-danger btn-sm'>
                         <i className="fas fa-times"></i>
@@ -343,7 +346,60 @@ class MeoML extends Component{
             </div>
         </div>
         </>
-        )
+    )
+
+    var outputPrediksiMyCar = (
+        <>
+        <div className="mt-5 section_tittle">
+            <h2>Hasil Prediksi</h2>
+            <p><b>Model machine learning multivariate linear regression</b></p>
+        </div>
+        <div className='row'>
+            <div className="col-lg-2 col-sm-4">
+                <div className="single_pricing_part">
+                    <button 
+                    onClick={()=>{this.setState({hasilPrediksi: '', hasilPrediksiMyCar: ''})}}
+                    style={{position:'absolute', zIndex:99, marginLeft:'-35px', marginTop:'-34px'}} 
+                    className='btn btn-danger btn-sm'>
+                        <i className="fas fa-times"></i>
+                    </button>
+                    <a style={{cursor:'pointer'}}>
+                        <img src={this.state.hasilPrediksiMyCar.foto}/>
+                        <a className="pricing_btn">
+                            {this.state.hasilPrediksiMyCar.pnama}
+                        </a>
+                        <p className="pricing_btn">
+                            {this.state.hasilPrediksiMyCar.pth}
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div className="col-sm-8">
+                <b className="alert alert-warning">
+                    <i style={{color:'orange'}} className="fas fa-car"></i>&nbsp;&nbsp;{this.state.hasilPrediksiMyCar.pnama}
+                </b>
+                <b className="ml-2 alert alert-warning">
+                    <i style={{color:'orange'}} className="fas fa-cog"></i>&nbsp;&nbsp;{this.state.hasilPrediksiMyCar.ptransmisi}
+                </b>
+                <b className="ml-2 alert alert-warning">
+                    <i style={{color:'orange'}} className="far fa-calendar"></i>&nbsp;&nbsp;{this.state.hasilPrediksiMyCar.pth}
+                </b>
+                <b className="ml-2 alert alert-warning">
+                    <i style={{color:'orange'}} className="fas fa-gas-pump"></i>&nbsp;&nbsp;{this.state.hasilPrediksiMyCar.pbbm}
+                </b>
+                <b className="ml-2 alert alert-warning">
+                    <i style={{color:'orange'}} className="fas fa-tachometer-alt"></i>&nbsp;&nbsp;{this.state.hasilPrediksiMyCar.pkm} <small>km</small>
+                </b>
+                <br/>
+                <hr className='my-4'></hr>
+                <b style={{fontSize:'30px'}} className="alert alert-success">
+                    <i className='fas fa-money-bill-wave'></i>&nbsp;&nbsp;
+                    Rp {this.state.hasilPrediksiMyCar ? this.state.hasilPrediksiMyCar.zprediksi.toLocaleString().replace(/,/g, '.') : this.state.hasilPrediksiMyCar}
+                </b>
+            </div>
+        </div>
+        </>
+    )
 
     return(
         <div>
@@ -381,6 +437,9 @@ class MeoML extends Component{
 
                 {/* output prediksi */}
                 {this.state.hasilPrediksi ? outputPrediksi : <></>}
+
+                {/* output prediksi mycar */}
+                {this.state.hasilPrediksiMyCar ? outputPrediksiMyCar : <></>}
 
             </div>
             <img src="/img/animate_icon/Ellipse_2.png" alt="" className="feature_icon_2 custom-animation2"/>
