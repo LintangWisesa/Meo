@@ -74,7 +74,7 @@ router.get('/iotone', (req, res) => {
 
 // get latest 50 data
 router.get('/iot', (req, res) => {
-    var dbStat = 'select * from meo_iot order by itime limit 50;'
+    var dbStat = 'select * from (select * from meo_iot order by itime desc limit 50) as x order by itime'
     db.query(dbStat, (error, output) => {
         if(error){
             console.log(error)
